@@ -6,7 +6,7 @@ export default function Home() {
             <div className="flex items-center justify-center bg-dark-green text-green h-20 m-2 rounded-lg">
                 <h1 className="h1-display">Title Heading</h1>
             </div>
-            <div className="m-2">
+            <div className="flex-grow m-2">
                 <div className={"flex-row border text-center"}>
                     <div className="grid grid-cols-5 px-3">
                         <div className="">1</div>
@@ -17,9 +17,9 @@ export default function Home() {
                     </div>
                 </div>
                 <div className={"flex-row"}>
-                    <div className="grid grid-cols-3 px-3">
+                    <div className={"grid grid-cols-3 px-3 py-20"}>
                         <div className="text-left">Left</div>
-                        <div className="text-center">Center</div>
+                        <div className="text-center">Stadion Image</div>
                         <div className="text-right">Right</div>
                     </div>
                 </div>
