@@ -26,3 +26,20 @@ section {
 .kampPreview:hover {
     transform: scale(1.05);
 }
+
+.klublogo {
+    width: auto !important;
+    height: 50px !important;
+}
+
+.titleSection {
+    margin-top: 0 !important;
+    height: 700px !important;
+    background-size: cover !important;
+    background-image: url('https://www.vff.dk/images/2022-2023/Hjemmebane/RFC0503/_DS92944-2.jpg');
+}
+
+.headerlogo {
+    width: auto !important;
+    height: 100px !important;
+}
