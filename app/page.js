@@ -1,19 +1,36 @@
 "use client";
-import H1 from "app/components/h1";
 import { useState } from "react";
+import KampPreview from "./components/KampPreview";
+
+//test
 
 export default function Home() {
-    const [test, setTest] = useState(0);
+  let testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
     return (
         <main>
-            <h1 className="font-semibold text-5xl">Hello World v2 {test}</h1>
-            <button onClick={() => setTest(test + 1)}>+</button>
-            <H1 tekst="new component text" />
-            <H1 tekst="new component text2" />
-            <H1 tekst="new component text3" />
-            <H1 tekst="new component text4" />
-            <H1 tekst="new component text5" />
+            <section className="titleSection p-5">
+                <img
+                    className="w-1/4 mx-auto headerlogo"
+                    src="https://www.vff.dk/images/Logo/VFF_primaerlogo_cmyk_compr_med.png"
+                    alt="logo"
+                />
+                <div className="text-center p-52">
+                    <h1 className="font-semibold text-8xl text-white">Billet Booking</h1>
+                    <p className="mt-5 font-medium text-xl text-white">
+                        Her finder du billetter til alle kampe på Viborg stadion
+                    </p>
+                </div>
+            </section>
+            <section>
+                <div className="container">
+                    <div className="grid grid-cols-1 gap-14">
+                        {testArray.map((item, index) => {
+                            return <KampPreview key={index} />;
+                        })}
+                    </div>
+                </div>
+            </section>
         </main>
     );
 }
