@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp }  from "firebase/app";
-import 'firebase/database';
+import { initializeApp } from "firebase/app";
+import "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,14 +13,14 @@ const firebaseConfig = {
   storageBucket: "stadionbookingskoleproject.appspot.com",
   messagingSenderId: "400617141781",
   appId: "1:400617141781:web:d82f13bc82e58b640f801c",
-  measurementId: "G-XX8C3Y6QRP"
+  measurementId: "G-XX8C3Y6QRP",
 };
 const app = initializeApp(firebaseConfig);
 
 export default app;
 
-// The below code is what you need to get data from the database right now 
-// you get what documents that are under the collection "section" on the 
+// The below code is what you need to get data from the database right now
+// you get what documents that are under the collection "section" on the
 // database currently you only get "a" back
 // import firebase from './firebaseConnect.js';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -47,7 +47,7 @@ export default app;
 // This is how you can create a document
 // await setDoc(docRef, { /* document data */ });
 
-// This is a example on how document data should look like if 
+// This is a example on how document data should look like if
 // you have more than one datapoint you want to create/update
 // const documentData = {
 //   field1: 'value1',
@@ -55,7 +55,6 @@ export default app;
 //   field3: true,
 //   field4: { nestedField: 'nestedValue' },
 // };
-
 
 // This is how you delete a specific document
 // await deleteDoc(docRef);
