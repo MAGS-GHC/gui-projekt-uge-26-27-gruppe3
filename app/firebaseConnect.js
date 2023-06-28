@@ -21,7 +21,7 @@ export default app;
 
 // The below code is what you need to get data from the database right now 
 // you get what documents that are under the collection "section" on the 
-//database currently you only get "a" back
+// database currently you only get "a" back
 // import firebase from './firebaseConnect.js';
 // import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
@@ -30,3 +30,13 @@ export default app;
 // const snapshot = await getDocs(testCol);
 // const doc = snapshot.docs.map(doc => doc.data())
 // console.log(doc);
+
+// This is how you can refer to a specific document
+// const docRef = doc(db, 'collectionName', 'documentId');
+
+// This is how you can refer to a specific collection
+// const colRef = collection(db, 'collectionName');
+
+// This is how you can change a field value for a document
+// This is 'fieldToUpdate' a variable and 'newValue' is aswell
+// await updateDoc(docRef, { [fieldToUpdate]: newValue });
