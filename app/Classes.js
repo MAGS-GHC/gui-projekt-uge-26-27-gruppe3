@@ -1,5 +1,7 @@
 import { Noto_Serif_Tamil } from "next/font/google";
-
+import { app } from "./firebaseConnect";
+import firebase from "./firebaseConnect.js";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 export class Section {
   constructor(id, rowsCount, sectionId, standing) {
     this.id = id;
@@ -69,3 +71,9 @@ export class User {
     ticket: this.ticket;
   }
 }
+
+export const getSection = async (id) => {
+  const db = getFirestore(firebase);
+  const col = collection(db, "section");
+  const snapshot = await getDocs(testCol);
+};
