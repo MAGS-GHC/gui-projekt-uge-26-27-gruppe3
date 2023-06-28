@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp }  from "firebase/app";
+import 'firebase/database';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,7 +15,18 @@ const firebaseConfig = {
   appId: "1:400617141781:web:d82f13bc82e58b640f801c",
   measurementId: "G-XX8C3Y6QRP"
 };
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+export default app;
+
+// The below code is what you need to get data from the database right now 
+// you get what documents that are under the collection "section" on the 
+//database currently you only get "a" back
+// import firebase from './firebaseConnect.js';
+// import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
+// const db = getFirestore(firebase)
+// const testCol = collection(db, 'section');
+// const snapshot = await getDocs(testCol);
+// const doc = snapshot.docs.map(doc => doc.data())
+// console.log(doc);
