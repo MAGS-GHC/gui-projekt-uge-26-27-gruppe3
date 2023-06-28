@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+
+.header {
+    color: white;
+}
+
+.container {
+    max-width: 1300px !important;
+    margin: auto;
+}
+
+section {
+    margin-top: 5rem;
+}
+
+.kampPreview {
+    transition: transform 0.5s;
+}
+
+.kampPreview:hover {
+    transform: scale(1.05);
+}
