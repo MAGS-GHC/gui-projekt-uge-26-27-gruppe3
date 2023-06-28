@@ -38,5 +38,8 @@ export default app;
 // const colRef = collection(db, 'collectionName');
 
 // This is how you can change a field value for a document
-// This is 'fieldToUpdate' a variable and 'newValue' is aswell
+// 'fieldToUpdate' is a variable and 'newValue' is aswell
 // await updateDoc(docRef, { [fieldToUpdate]: newValue });
+
+// This is how you can create a new collection
+// await addDoc(collectionRef, { /* document data */ });
