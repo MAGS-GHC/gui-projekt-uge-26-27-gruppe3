@@ -43,3 +43,26 @@ export default app;
 
 // This is how you can create a new collection
 // await addDoc(collectionRef, { /* document data */ });
+
+// This is how you can create a document
+// await setDoc(docRef, { /* document data */ });
+
+// This is a example on how document data should look like if 
+// you have more than one datapoint you want to create/update
+// const documentData = {
+//   field1: 'value1',
+//   field2: 42,
+//   field3: true,
+//   field4: { nestedField: 'nestedValue' },
+// };
+
+
+// This is how you delete a specific document
+// await deleteDoc(docRef);
+
+// This is how you empty a specific collection
+// const querySnapshot = await getDocs(collectionRef);
+//
+//   querySnapshot.forEach((doc) => {
+//     deleteDoc(doc.ref);
+//   });
