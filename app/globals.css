@@ -43,3 +43,38 @@ section {
     width: auto !important;
     height: 100px !important;
 }
+/* Heading Display Classes */
+.h1-display {
+    font-size: 2.5rem;
+    font-family: Bahnschrift, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.h2-display {
+    font-size: 2rem;
+    font-family: Bahnschrift, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.h3-display {
+    font-size: 1.75rem;
+    font-family: Bahnschrift, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.h4-display {
+    font-size: 1.5rem;
+    font-family: Bahnschrift, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.h5-display {
+    font-size: 1.25rem;
+    font-family: Bahnschrift, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.2;
+}
