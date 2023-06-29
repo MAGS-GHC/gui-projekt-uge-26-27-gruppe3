@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+
 .header {
     color: white;
 }
@@ -13,7 +17,6 @@
 
 section {
     margin-top: 5rem;
-    padding: 1rem;
 }
 
 .kampPreview {
@@ -22,6 +25,7 @@ section {
 
 .kampPreview:hover {
     transform: scale(1.05);
+
 }
 
 .klublogo {
@@ -74,12 +78,5 @@ section {
     font-family: Bahnschrift, Arial, sans-serif;
     font-weight: bold;
     line-height: 1.2;
-}
 
-
-@media (max-width: 768px) {
-   .klublogo {
-    width: auto !important;
-    height: 40px !important;
-}
 }
