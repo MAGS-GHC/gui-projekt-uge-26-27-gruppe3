@@ -25,9 +25,7 @@ section {
 
 .kampPreview:hover {
     transform: scale(1.05);
-<<<<<<< Updated upstream
-}
-=======
+
 }
 
 .klublogo {
@@ -80,6 +78,5 @@ section {
     font-family: Bahnschrift, Arial, sans-serif;
     font-weight: bold;
     line-height: 1.2;
-}
 
->>>>>>> Stashed changes
+}
