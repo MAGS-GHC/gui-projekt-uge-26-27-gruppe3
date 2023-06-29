@@ -2,8 +2,6 @@
 import { useState } from "react";
 import KampPreview from "./components/KampPreview";
 
-//test
-
 export default function Home() {
     let kampData = [
         {
