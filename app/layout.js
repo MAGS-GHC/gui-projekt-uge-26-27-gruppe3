@@ -6,18 +6,18 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Stadion Booking",
-  description: "Lavet af Gruppe 3",
+    title: "Stadion Booking",
+    description: "Lavet af Gruppe 3",
 };
 export default function RootLayout({ children }) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <WebHeader />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
-  );
+    return (
+        <ClerkProvider>
+            <html lang="en">
+                <body className={`${inter.className}`}>
+                    <WebHeader />
+                    {children}
+                </body>
+            </html>
+        </ClerkProvider>
+    );
 }
