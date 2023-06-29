@@ -1,5 +1,4 @@
 import React from 'react';
-import Field from 'public/football-field.svg';
 
 export default function Home() {
     return <main>
