@@ -14,11 +14,32 @@ import {
 
 // Section class
 export class Section {
-  constructor(id, rowsCount, rows, standing) {
+  constructor(
+    id,
+    rowsCount,
+    standing,
+    size,
+    rows = this.getRows(id, rowsCount, size)
+  ) {
     this.id = id;
     this.rowsCount = rowsCount;
     this.rows = rows;
     this.standing = standing;
+    this.size = size;
+  }
+  getRows(id, rowsCount, size) {
+    let returnArray = [];
+    for (let i = 1; i <= rowsCount; i++) {
+      if (size == "Large") {
+        returnArray.push(new Row(id + "-" + i, 10, []));
+      } else {
+        returnArray.push(new Row(id + "-" + i, 6, []));
+      }
+    }
+    return returnArray;
+  }
+  toObject() {
+    return { id: this.id, rowsCount: this.rowsCount, standing: this.standing };
   }
 }
 // Row class
@@ -29,7 +50,7 @@ export class Row {
     this.seats = seat;
   }
   toObject() {
-    return { id: this.id, seatCount: this.seatCount, seats: this.seats };
+    return { id: this.id, seatCount: this.seatCount };
   }
 }
 // Seat class
@@ -39,6 +60,14 @@ export class Seat {
     this.number = number;
     this.reserved = reserved;
     this.price = price;
+  }
+  toObject() {
+    return {
+      id: this.id,
+      number: this.number,
+      reserved: this.reserved,
+      price: this.price,
+    };
   }
 }
 // Ticket class
@@ -143,8 +172,52 @@ export const getSection = async (id, sections) => {
 //   }
 // };
 // addSeats();
+const CreateSeats = async (sections) => {
+  const db = getFirestore(firebase);
+  sections.forEach(async (x) => {
+    x.rows.forEach(async (y) => {
+      const col = collection(db, x.id + "-seat");
+      for (let i = 1; i <= y.seatCount; i++) {
+        const seat = new Seat(`${y.id}-${i}`, i, false, 0);
+        const setdoc = await setDoc(doc(col, `${y.id}-${i}`), seat.toObject());
+      }
+    });
+  });
+};
+const CreateRows = async (sections) => {
+  const db = getFirestore(firebase);
+  sections.forEach(async (x) => {
+    x.rows.forEach(async (y) => {
+      const col = collection(db, x.id + "-row");
+      const setdoc = await setDoc(doc(col, y.id), y.toObject());
+    });
+  });
+};
+const CreateSections = async (id, sections) => {
+  const db = getFirestore(firebase);
+  const col = collection(db, `${id}-sections`);
+  sections.forEach(async (x) => {
+    const setdoc = await setDoc(doc(col, x.id), x.toObject());
+  });
+};
 
-const CreateMatch = async (id) => {};
-const CreateSections = async () => {};
-const CreateRows = async (rows) => {};
-const CreateSeats = async () => {};
+const CreateMatch = async (id) => {
+  const sections = [
+    new Section(id + "-A", 5, false, "Large"),
+    new Section(id + "-B", 5, true, "Large"),
+    new Section(id + "-C", 5, false, "Large"),
+    new Section(id + "-D", 5, false, "Small"),
+    new Section(id + "-E", 5, false, "Small"),
+    new Section(id + "-F", 5, false, "Small"),
+    new Section(id + "-G", 5, false, "Large"),
+    new Section(id + "-H", 5, false, "Large"),
+    new Section(id + "-I", 5, false, "Large"),
+    new Section(id + "-J", 5, false, "Small"),
+    new Section(id + "-K", 5, false, "Small"),
+    new Section(id + "-L", 5, false, "Small"),
+  ];
+  //CreateSections(id, sections);
+  //CreateRows(sections);
+  CreateSeats(sections);
+};
+CreateMatch("080720");
