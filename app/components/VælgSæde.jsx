@@ -1,4 +1,4 @@
-import NoClickSeat from "./NoClickSeat";
+
 import Seat from "./Seat";
 import Link from "next/link";
 
@@ -17,6 +17,9 @@ export default function VælgSæde(props) {
                     return <Seat key={index} sæde={index + 1} />;
                 })}
             </div>
+
+
         </div>
     );
 }
+
