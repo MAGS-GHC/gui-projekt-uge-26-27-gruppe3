@@ -1,7 +1,8 @@
 
 import Seat from "./Seat";
 
-export default function VælgSæde(props) {
+export function VælgSæde(props) {
+
     let seatArray = [];
 
     seatArray.length = props.sædeAntal;
@@ -17,6 +18,7 @@ export default function VælgSæde(props) {
                     return <Seat key={index} sæde={index + 1} />;
                 })}
             </div>
+            <button>Purchase</button>
 
 
         </div>
