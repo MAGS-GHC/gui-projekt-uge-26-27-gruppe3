@@ -14,7 +14,9 @@ export default function Seat(props) {
             className={`Seat border border-1 p-1 h-4 w-4 g-1 ${
                 clicked == true ? "bg-red" : "bg-white"
             }`}
-            onClick={() => changeColor()}>
+            onClick={() => {
+                changeColor();
+            }}>
             {props.sæde}{" "}
         </button>
     );
