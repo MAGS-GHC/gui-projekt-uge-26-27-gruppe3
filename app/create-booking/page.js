@@ -1,7 +1,9 @@
-import React from 'react';
+/*import React from 'react';*/
+
+import React from "react";
 
 export default function Home() {
-    return <main>
+    return  <main>
         <div className="flex flex-col h-screen">
             <div className="flex items-center justify-center bg-dark-green text-green h-20 m-2 rounded-lg">
                 <h1 className="h1-display">Vælg Sektion</h1>
@@ -38,7 +40,7 @@ export default function Home() {
                 </div>
                 <div className={"flex-row"}>
                     <div className={"grid grid-cols-3 px-3"}>
-                        <div className="">
+                        <div className="grid place-items-start">
                             <div className="">
                                 <button className={"my-2 py-4 px-1 border border-green"}>
                                     Sektion M
@@ -58,7 +60,7 @@ export default function Home() {
                         <div className="grid place-items-center">
                             <img src="https://static.vecteezy.com/system/resources/previews/000/542/326/original/football-soccer-stadiun-field-vector.jpg" className="rotate-90" alt={""}/>
                         </div>
-                        <div className="text-right">
+                        <div className="grid place-items-end">
                             <div className="">
                                 <button className={"my-2 py-4 px-1 border border-green"}>
                                     Sektion F1
