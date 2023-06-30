@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Seat(props) {
     const [clicked, setClicked] = useState(false);
+    const [clickedCount, setClickedCount] = useState(0);
 
     function changeColor() {
         setClicked(!clicked);
+        setClickedCount(prevCount => clicked ? prevCount -1 : prevCount + 1);
     }
 
     return (
