@@ -4,6 +4,7 @@ import { useState } from "react";
 import NoClickSeat from "../components/NoClickSeat";
 import VælgSæde from "../components/VælgSæde";
 import Grid from "../components/Grid";
+import Link from "next/link";
 
 export default function Home() {
     let seatArray = [
@@ -17,6 +18,11 @@ export default function Home() {
         <main>
             <section>
                 <div className="container">
+                    <div className="container">
+                        <Link href={"/payment"} passHref={true}>
+                            <button className="text-black">Køb billetter</button>
+                        </Link>
+                    </div>
                     <div className="flex flex-col items-center content-center justify-center gap-3 p-5">
                         <div className="flex gap-3">
                             <div
