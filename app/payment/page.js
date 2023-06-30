@@ -26,7 +26,7 @@ export default function Home() {
     {isModalOpen && (
         <Message
             isOpen={isModalOpen}
-            message="Payment Successful"
+            message="Betaling Gennemført!"
             onAccept={() => setIsModalOpen(false)}
         />
     )}

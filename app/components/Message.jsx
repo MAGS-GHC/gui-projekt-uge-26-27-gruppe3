@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Message = ({ isOpen, message, onAccept }) => {
     if (!isOpen) {
@@ -7,7 +7,7 @@ const Message = ({ isOpen, message, onAccept }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-10">
-            <div className="bg-dark-green w-64 p-4 rounded shadow">
+            <div className="border-4 border-green bg-dark-green w-64 p-4 rounded shadow ">
                 <p className="text-center text-white">{message}</p>
                 <div className="flex justify-center mt-4">
                     <button
@@ -20,6 +20,7 @@ const Message = ({ isOpen, message, onAccept }) => {
             </div>
         </div>
     );
+
 };
 
 export default Message;
