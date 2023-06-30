@@ -83,7 +83,7 @@ export class Seat {
     this.reserved = reserved;
     this.price = price;
   }
-  toObject() {
+  async toObject() {
     return {
       id: this.id,
       number: this.number,
@@ -162,24 +162,20 @@ export const getMatch = async (id) => {
   const db = getFirestore(firebase);
   const doco = doc(db, "Kampe", id);
   const data = await getDoc(doco);
-  // const col = collection(db, "Kampe");
-  // const data = await getDocs(col);
-  // const data1 = data.docs.map((doc) => doc.data());
 
-  console.log(
-    new Match(
-      data.data().id,
-      data.data().date,
-      data.data().time,
-      data.data().outTeam,
-      data.data().homeTeam,
-      data.data().homeTeamLogo,
-      data.data().outTeamLogo,
-      data.data().openingTime,
-      sections
-    )
+  return new Match(
+    data.data().id,
+    data.data().date,
+    data.data().time,
+    data.data().outTeam,
+    data.data().homeTeam,
+    data.data().homeTeamLogo,
+    data.data().outTeamLogo,
+    data.data().openingTime,
+    sections
   );
 };
+
 //getMatch("FCNVFF230723");
 // const addSection = async () => {
 //   const db = getFirestore(firebase);
@@ -267,7 +263,3 @@ export const CreateMatch = async (id) => {
   CreateSeats(sections);
 };
 //CreateMatch("FCNVFF230723");
-
-// const UpdateSeat = async (id, section) => {
-//   const db = getFirestore(firebase);
-// };
