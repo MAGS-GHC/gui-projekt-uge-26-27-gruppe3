@@ -3,6 +3,7 @@
 import { useState } from "react";
 import NoClickSeat from "../components/NoClickSeat";
 import VælgSæde from "../components/VælgSæde";
+import Grid from "../components/Grid";
 
 export default function Home() {
     let seatArray = [
