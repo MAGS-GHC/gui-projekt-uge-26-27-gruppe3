@@ -11,8 +11,30 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
+import { get } from "firebase/database";
 
-// Section class
+export class Match {
+  constructor(
+    id,
+    date,
+    time,
+    outTeam,
+    homeTeam,
+    homeTeamLogo,
+    outTeamLogo,
+    openingTime,
+    sections
+  ) {
+    this.id = id;
+    this.date = date;
+    this.time = time;
+    this.outTeam = outTeam;
+    (this.homeTeam = homeTeam), (this.homeTeamLogo = homeTeamLogo);
+    this.outTeamLogo = outTeamLogo;
+    this.openingTime = openingTime;
+    this.sections = sections;
+  }
+}
 export class Section {
   constructor(
     id,
@@ -88,7 +110,7 @@ export class User {
   }
 }
 // function that gets all the seats from a section
-const getSeat = async (id, section) => {
+const getSeat = async (id) => {
   const returnArray = [];
   const db = getFirestore(firebase);
   const col = collection(db, `${id}-seat`);
@@ -101,9 +123,9 @@ const getSeat = async (id, section) => {
 };
 
 //function that gets all the rows from a section with the seats to each row
-const getRow = async (id, section) => {
+const getRow = async (id) => {
   const returnArray = [];
-  const seats = await getSeat(id, section);
+  const seats = await getSeat(id);
   const db = getFirestore(firebase);
   const col = collection(db, `${id}-row`);
   const row = await getDocs(col);
@@ -120,21 +142,45 @@ const getRow = async (id, section) => {
   return returnArray;
 };
 //function that get a section from the db with all its data
-export const getSection = async (id, sections) => {
+const getSection = async (id) => {
+  let sections = [];
   const db = getFirestore(firebase);
-  const col = doc(db, `${id}-section`, sections);
-  const section = await getDoc(col);
-  const row = await getRow(id, sections);
+  const col = collection(db, `${id}-sections`);
+  const section = await getDocs(col);
+  const data = section.docs.map((doc) => doc.data());
+  await Promise.all(
+    data.map(async (x) => {
+      const row = await getRow(x.id);
+      const thisSection = new Section(x.id, x.rowsCount, x.standing, null, row);
+      sections.push(thisSection);
+    })
+  );
+  return sections;
+};
+export const getMatch = async (id) => {
+  const sections = await getSection(id);
+  const db = getFirestore(firebase);
+  const doco = doc(db, "Kampe", id);
+  const data = await getDoc(doco);
+  // const col = collection(db, "Kampe");
+  // const data = await getDocs(col);
+  // const data1 = data.docs.map((doc) => doc.data());
+
   console.log(
-    new Section(
-      section.data().id,
-      section.data().rowsCount,
-      row,
-      section.data().standing
+    new Match(
+      data.data().id,
+      data.data().date,
+      data.data().time,
+      data.data().outTeam,
+      data.data().homeTeam,
+      data.data().homeTeamLogo,
+      data.data().outTeamLogo,
+      data.data().openingTime,
+      sections
     )
   );
 };
-
+//getMatch("FCNVFF230723");
 // const addSection = async () => {
 //   const db = getFirestore(firebase);
 //   const col = collection(db, "VFF-BFF-section");
@@ -201,7 +247,7 @@ const CreateSections = async (id, sections) => {
   });
 };
 
-const CreateMatch = async (id) => {
+export const CreateMatch = async (id) => {
   const sections = [
     new Section(id + "-A", 5, false, "Large"),
     new Section(id + "-B", 5, true, "Large"),
@@ -216,8 +262,12 @@ const CreateMatch = async (id) => {
     new Section(id + "-K", 5, false, "Small"),
     new Section(id + "-L", 5, false, "Small"),
   ];
-  //CreateSections(id, sections);
-  //CreateRows(sections);
+  CreateSections(id, sections);
+  CreateRows(sections);
   CreateSeats(sections);
 };
-CreateMatch("080720");
+//CreateMatch("FCNVFF230723");
+
+// const UpdateSeat = async (id, section) => {
+//   const db = getFirestore(firebase);
+// };
