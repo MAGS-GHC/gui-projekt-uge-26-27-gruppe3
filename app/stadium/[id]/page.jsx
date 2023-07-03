@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import NoClickSeat from "../components/NoClickSeat";
-import VælgSæde from "../components/VælgSæde";
-import Grid from "../components/Grid";
+import NoClickSeat from "../../components/NoClickSeat";
+import VælgSæde from "../../components/VælgSæde";
+import Grid from "../../components/Grid";
+import Link from "next/link";
 
-export default function Home() {
+export default function Home({ params }) {
     let seatArray = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
         26, 27, 28, 29, 30,
@@ -17,6 +18,12 @@ export default function Home() {
         <main>
             <section>
                 <div className="container">
+                    <div className="container">
+                        <Link href={"/payment"} passHref={true}>
+                            <button className="text-black">Køb billetter</button>
+                        </Link>
+                    </div>
+                    <h1>Kamp ID: {params.id}</h1>
                     <div className="flex flex-col items-center content-center justify-center gap-3 p-5">
                         <div className="flex gap-3">
                             <div

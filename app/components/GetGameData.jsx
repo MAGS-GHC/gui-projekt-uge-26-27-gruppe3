@@ -1,9 +1,9 @@
 import firebase from '../firebaseConnect.js';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, getDocFromServer, col, getDocs} from 'firebase/firestore';
 
 export default async function GameData(GameID) {
 const db = getFirestore(firebase)
-const docRef = doc(db, 'Kampe', GameID);
-const snapshot = await getDocFromServer(docRef);
-console.log(snapshot.data());
+const colRef = col(db, 'Kampe');
+const snapshot = await getDocs(colRef);
+snapshot.forEach(s => console.log(s));
 };
