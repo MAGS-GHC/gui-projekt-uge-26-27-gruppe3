@@ -1,5 +1,6 @@
 
 import Seat from "./Seat";
+import Link from "next/link";
 
 export default function VælgSæde(props) {
     let seatArray = [];
@@ -11,8 +12,7 @@ export default function VælgSæde(props) {
     return (
         <div className="flex justify-center flex-col items-center">
             <p>{props.sektion}</p>
-
-            <div className={`grid grid-cols-${props.rækker} gap-10 w-fit`}>
+            <div className={`grid grid-cols-6 gap-10 w-fit`}>
                 {seatArray.map((item, index) => {
                     return <Seat key={index} sæde={index + 1} />;
                 })}
