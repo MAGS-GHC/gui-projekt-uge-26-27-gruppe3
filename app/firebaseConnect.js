@@ -30,10 +30,8 @@ const firebaseConfig = {
   appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
   measurementId: "G-H5ZPJP69P4",
 };
-const app = initializeApp(firebaseConfig);
-=======
-const firebase = initializeApp(firebaseConfig);
 
+const firebase = initializeApp(firebaseConfig);
 
 export default firebase;
 
