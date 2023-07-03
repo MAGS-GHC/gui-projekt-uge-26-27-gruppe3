@@ -1,4 +1,3 @@
-"use client";
 import { Noto_Serif_Tamil } from "next/font/google";
 import { app } from "./firebaseConnect";
 import firebase from "./firebaseConnect.js";
@@ -10,6 +9,7 @@ import {
   setDoc,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { get } from "firebase/database";
 
@@ -23,16 +23,29 @@ export class Match {
     homeTeamLogo,
     outTeamLogo,
     openingTime,
-    sections
+    sections = null
   ) {
     this.id = id;
     this.date = date;
     this.time = time;
     this.outTeam = outTeam;
-    (this.homeTeam = homeTeam), (this.homeTeamLogo = homeTeamLogo);
+    this.homeTeam = homeTeam;
+    this.homeTeamLogo = homeTeamLogo;
     this.outTeamLogo = outTeamLogo;
     this.openingTime = openingTime;
     this.sections = sections;
+  }
+  toObject() {
+    return {
+      id: this.id,
+      date: this.date,
+      time: this.time,
+      outTeam: this.outTeam,
+      homeTeam: this.homeTeam,
+      homeTeamLogo: this.homeTeamLogo,
+      outTeamLogo: this.outTeamLogo,
+      openingTime: this.openingTime,
+    };
   }
 }
 export class Section {
@@ -83,7 +96,7 @@ export class Seat {
     this.reserved = reserved;
     this.price = price;
   }
-  async toObject() {
+  toObject() {
     return {
       id: this.id,
       number: this.number,
@@ -123,11 +136,11 @@ const getSeat = async (id) => {
 };
 
 //function that gets all the rows from a section with the seats to each row
-const getRow = async (id) => {
+const getRow = async (matchId) => {
   const returnArray = [];
-  const seats = await getSeat(id);
+  const seats = await getSeat(matchId);
   const db = getFirestore(firebase);
-  const col = collection(db, `${id}-row`);
+  const col = collection(db, `${matchId}-row`);
   const row = await getDocs(col);
   const data = row.docs.map((doc) => doc.data());
   for (let i = 0; i < data.length; i++) {
@@ -148,15 +161,28 @@ const getSection = async (id) => {
   const col = collection(db, `${id}-sections`);
   const section = await getDocs(col);
   const data = section.docs.map((doc) => doc.data());
+  const row = await getRow(id);
   await Promise.all(
     data.map(async (x) => {
-      const row = await getRow(x.id);
-      const thisSection = new Section(x.id, x.rowsCount, x.standing, null, row);
+      let rowArray = [];
+      row.forEach((y) => {
+        if (y.id.includes(x.id + "-")) {
+          rowArray.push(y);
+        }
+      });
+      const thisSection = new Section(
+        x.id,
+        x.rowsCount,
+        x.standing,
+        null,
+        rowArray
+      );
       sections.push(thisSection);
     })
   );
   return sections;
 };
+//function that gets a match from the db and insert all its data
 export const getMatch = async (id) => {
   const sections = await getSection(id);
   const db = getFirestore(firebase);
@@ -176,7 +202,8 @@ export const getMatch = async (id) => {
   );
 };
 
-//getMatch("FCNVFF230723");
+//const match = getMatch("FCNVFF230723");
+//console.log(match);
 // const addSection = async () => {
 //   const db = getFirestore(firebase);
 //   const col = collection(db, "VFF-BFF-section");
@@ -214,11 +241,11 @@ export const getMatch = async (id) => {
 //   }
 // };
 // addSeats();
-const CreateSeats = async (sections) => {
+const CreateSeats = async (id, sections) => {
   const db = getFirestore(firebase);
   sections.forEach(async (x) => {
     x.rows.forEach(async (y) => {
-      const col = collection(db, x.id + "-seat");
+      const col = collection(db, id + "-seat");
       for (let i = 1; i <= y.seatCount; i++) {
         const seat = new Seat(`${y.id}-${i}`, i, false, 0);
         const setdoc = await setDoc(doc(col, `${y.id}-${i}`), seat.toObject());
@@ -226,11 +253,11 @@ const CreateSeats = async (sections) => {
     });
   });
 };
-const CreateRows = async (sections) => {
+const CreateRows = async (id, sections) => {
   const db = getFirestore(firebase);
   sections.forEach(async (x) => {
     x.rows.forEach(async (y) => {
-      const col = collection(db, x.id + "-row");
+      const col = collection(db, id + "-row");
       const setdoc = await setDoc(doc(col, y.id), y.toObject());
     });
   });
@@ -243,7 +270,16 @@ const CreateSections = async (id, sections) => {
   });
 };
 
-export const CreateMatch = async (id) => {
+export const CreateMatch = async (
+  id,
+  date,
+  time,
+  outTeam,
+  homeTeam,
+  homeTeamLogo,
+  outTeamLogo,
+  openingTime
+) => {
   const sections = [
     new Section(id + "-A", 5, false, "Large"),
     new Section(id + "-B", 5, true, "Large"),
@@ -258,8 +294,38 @@ export const CreateMatch = async (id) => {
     new Section(id + "-K", 5, false, "Small"),
     new Section(id + "-L", 5, false, "Small"),
   ];
-  CreateSections(id, sections);
-  CreateRows(sections);
-  CreateSeats(sections);
+  //CreateSections(id, sections);
+  //CreateRows(id, sections);
+  //CreateSeats(id, sections);
+  const match = new Match(
+    id,
+    date,
+    time,
+    outTeam,
+    homeTeam,
+    homeTeamLogo,
+    outTeamLogo,
+    openingTime
+  );
+  const db = getFirestore(firebase);
+  const col = collection(db, "Kampe");
+  const setdoc = await setDoc(doc(col, id), match.toObject());
 };
-//CreateMatch("FCNVFF230723");
+CreateMatch(
+  "FCNVFF240723",
+  "MANDAG 24.JULI",
+  "19:00",
+  "FCN",
+  "VIBORG FF",
+  "https://www.vff.dk/images/Klublogoer_billetsalg/vff.png",
+  "https://www.vff.dk/images/Klublogoer_billetsalg/fcn.png",
+  "17:00"
+);
+
+export const UpdateSeat = async (matchId, seatId) => {
+  const db = getFirestore(firebase);
+  const doco = doc(db, matchId + "-seat", seatId);
+  const updatedSeat = updateDoc(doco, { reserved: true });
+};
+
+//UpdateSeat("FCNVFF230723", "FCNVFF230723-G-2-3");

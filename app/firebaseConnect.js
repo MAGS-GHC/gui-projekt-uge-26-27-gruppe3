@@ -8,28 +8,32 @@ import "firebase/database";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 //jesper
-const firebaseConfig = {
-  apiKey: "AIzaSyCdxow3XCOdSjuNRBzi9kMZt_0bsV9E684",
-  authDomain: "stadionbookingskoleproject.firebaseapp.com",
-  projectId: "stadionbookingskoleproject",
-  storageBucket: "stadionbookingskoleproject.appspot.com",
-  messagingSenderId: "400617141781",
-  appId: "1:400617141781:web:d82f13bc82e58b640f801c",
-  measurementId: "G-XX8C3Y6QRP",
-};
-//kim
 // const firebaseConfig = {
-//   apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
-//   authDomain: "vffgroupe3.firebaseapp.com",
-//   databaseURL:
-//     "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
-//   projectId: "vffgroupe3",
-//   storageBucket: "vffgroupe3.appspot.com",
-//   messagingSenderId: "1048216584094",
-//   appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
-//   measurementId: "G-H5ZPJP69P4",
+//   apiKey: "AIzaSyCdxow3XCOdSjuNRBzi9kMZt_0bsV9E684",
+//   authDomain: "stadionbookingskoleproject.firebaseapp.com",
+//   projectId: "stadionbookingskoleproject",
+//   storageBucket: "stadionbookingskoleproject.appspot.com",
+//   messagingSenderId: "400617141781",
+//   appId: "1:400617141781:web:d82f13bc82e58b640f801c",
+//   measurementId: "G-XX8C3Y6QRP",
 // };
+
+//kim
+const firebaseConfig = {
+  apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
+  authDomain: "vffgroupe3.firebaseapp.com",
+  databaseURL:
+    "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "vffgroupe3",
+  storageBucket: "vffgroupe3.appspot.com",
+  messagingSenderId: "1048216584094",
+  appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
+  measurementId: "G-H5ZPJP69P4",
+};
+const app = initializeApp(firebaseConfig);
+=======
 const firebase = initializeApp(firebaseConfig);
+
 
 export default firebase;
 
