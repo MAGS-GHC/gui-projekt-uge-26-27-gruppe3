@@ -17,6 +17,7 @@ import "firebase/database";
 //   appId: "1:400617141781:web:d82f13bc82e58b640f801c",
 //   measurementId: "G-XX8C3Y6QRP",
 // };
+
 //kim
 const firebaseConfig = {
   apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
@@ -30,8 +31,11 @@ const firebaseConfig = {
   measurementId: "G-H5ZPJP69P4",
 };
 const app = initializeApp(firebaseConfig);
+=======
+const firebase = initializeApp(firebaseConfig);
 
-export default app;
+
+export default firebase;
 
 // The below code is what you need to get data from the database right now
 // you get what documents that are under the collection "section" on the
