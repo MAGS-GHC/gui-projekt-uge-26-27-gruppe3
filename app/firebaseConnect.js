@@ -29,9 +29,9 @@ const firebaseConfig = {
 //   appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
 //   measurementId: "G-H5ZPJP69P4",
 // };
-const app = initializeApp(firebaseConfig);
+const firebase = initializeApp(firebaseConfig);
 
-export default app;
+export default firebase;
 
 // The below code is what you need to get data from the database right now
 // you get what documents that are under the collection "section" on the
