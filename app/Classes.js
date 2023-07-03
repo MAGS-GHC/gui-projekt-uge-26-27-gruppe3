@@ -1,4 +1,3 @@
-"use client";
 import { Noto_Serif_Tamil } from "next/font/google";
 import { app } from "./firebaseConnect";
 import firebase from "./firebaseConnect.js";
@@ -10,6 +9,7 @@ import {
   setDoc,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { get } from "firebase/database";
 
@@ -23,16 +23,29 @@ export class Match {
     homeTeamLogo,
     outTeamLogo,
     openingTime,
-    sections
+    sections = null
   ) {
     this.id = id;
     this.date = date;
     this.time = time;
     this.outTeam = outTeam;
-    (this.homeTeam = homeTeam), (this.homeTeamLogo = homeTeamLogo);
+    this.homeTeam = homeTeam;
+    this.homeTeamLogo = homeTeamLogo;
     this.outTeamLogo = outTeamLogo;
     this.openingTime = openingTime;
     this.sections = sections;
+  }
+  toObject() {
+    return {
+      id: this.id,
+      date: this.date,
+      time: this.time,
+      outTeam: this.outTeam,
+      homeTeam: this.homeTeam,
+      homeTeamLogo: this.homeTeamLogo,
+      outTeamLogo: this.outTeamLogo,
+      openingTime: this.openingTime,
+    };
   }
 }
 export class Section {
@@ -190,7 +203,7 @@ export const getMatch = async (id) => {
 };
 
 //const match = getMatch("FCNVFF230723");
-
+//console.log(match);
 // const addSection = async () => {
 //   const db = getFirestore(firebase);
 //   const col = collection(db, "VFF-BFF-section");
@@ -257,7 +270,16 @@ const CreateSections = async (id, sections) => {
   });
 };
 
-export const CreateMatch = async (id) => {
+export const CreateMatch = async (
+  id,
+  date,
+  time,
+  outTeam,
+  homeTeam,
+  homeTeamLogo,
+  outTeamLogo,
+  openingTime
+) => {
   const sections = [
     new Section(id + "-A", 5, false, "Large"),
     new Section(id + "-B", 5, true, "Large"),
@@ -272,8 +294,38 @@ export const CreateMatch = async (id) => {
     new Section(id + "-K", 5, false, "Small"),
     new Section(id + "-L", 5, false, "Small"),
   ];
-  CreateSections(id, sections);
-  CreateRows(id, sections);
-  CreateSeats(id, sections);
+  //CreateSections(id, sections);
+  //CreateRows(id, sections);
+  //CreateSeats(id, sections);
+  const match = new Match(
+    id,
+    date,
+    time,
+    outTeam,
+    homeTeam,
+    homeTeamLogo,
+    outTeamLogo,
+    openingTime
+  );
+  const db = getFirestore(firebase);
+  const col = collection(db, "Kampe");
+  const setdoc = await setDoc(doc(col, id), match.toObject());
 };
-//CreateMatch("FCNVFF230723");
+CreateMatch(
+  "FCNVFF240723",
+  "MANDAG 24.JULI",
+  "19:00",
+  "FCN",
+  "VIBORG FF",
+  "https://www.vff.dk/images/Klublogoer_billetsalg/vff.png",
+  "https://www.vff.dk/images/Klublogoer_billetsalg/fcn.png",
+  "17:00"
+);
+
+export const UpdateSeat = async (matchId, seatId) => {
+  const db = getFirestore(firebase);
+  const doco = doc(db, matchId + "-seat", seatId);
+  const updatedSeat = updateDoc(doco, { reserved: true });
+};
+
+//UpdateSeat("FCNVFF230723", "FCNVFF230723-G-2-3");
