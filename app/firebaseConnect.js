@@ -20,20 +20,17 @@ import "firebase/database";
 
 //kim
 const firebaseConfig = {
-  apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
-  authDomain: "vffgroupe3.firebaseapp.com",
-  databaseURL:
-    "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "vffgroupe3",
-  storageBucket: "vffgroupe3.appspot.com",
-  messagingSenderId: "1048216584094",
-  appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
-  measurementId: "G-H5ZPJP69P4",
+    apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
+    authDomain: "vffgroupe3.firebaseapp.com",
+    databaseURL: "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "vffgroupe3",
+    storageBucket: "vffgroupe3.appspot.com",
+    messagingSenderId: "1048216584094",
+    appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
+    measurementId: "G-H5ZPJP69P4",
 };
-const app = initializeApp(firebaseConfig);
-=======
-const firebase = initializeApp(firebaseConfig);
 
+const firebase = initializeApp(firebaseConfig);
 
 export default firebase;
 
