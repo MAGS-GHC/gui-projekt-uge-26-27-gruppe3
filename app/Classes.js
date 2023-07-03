@@ -299,16 +299,6 @@ export const CreateMatch = async (
     const col = collection(db, "Kampe");
     const setdoc = await setDoc(doc(col, id), match.toObject());
 };
-/* CreateMatch(
-  "FCNVFF240723",
-  "MANDAG 24.JULI",
-  "19:00",
-  "FCN",
-  "VIBORG FF",
-  "https://www.vff.dk/images/Klublogoer_billetsalg/vff.png",
-  "https://www.vff.dk/images/Klublogoer_billetsalg/fcn.png",
-  "17:00"
-); */
 
 export const UpdateSeat = async (matchId, seatId) => {
     const db = getFirestore(firebase);
