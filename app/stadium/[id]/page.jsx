@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Fragment } from "react";
 import NoClickSeat from "../../components/NoClickSeat";
 import VælgSæde from "../../components/VælgSæde";
 import Grid from "../../components/Grid";
 import Link from "next/link";
+import { getMatch, Match } from "@/app/Classes";
+import SeatTable from "../../components/Table";
+import { set } from "firebase/database";
 
 export default function Home({ params }) {
     let seatArray = [
@@ -13,6 +16,39 @@ export default function Home({ params }) {
     ];
 
     const [sektion, setSektion] = useState(0);
+    const [kampData, setKampData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [numRows, setNumRows] = useState(0);
+    const [numSeats, setNumSeats] = useState(0);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await getMatch(params.id);
+
+            const match = new Match(
+                response.id,
+                response.date,
+                response.time,
+                response.outTeam,
+                response.homeTeam,
+                response.homeTeamLogo,
+                response.outTeamLogo,
+                response.openingTime,
+                response.sections
+            );
+            match.sections.forEach((x) => {
+                x.seats.sort((a, b) => a.number - b.number);
+            });
+            setKampData(match);
+
+            setLoading(false);
+            console.log(match);
+        }
+        fetchData();
+    }, []);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    const section = kampData.sections[0];
 
     return (
         <main>
@@ -24,6 +60,25 @@ export default function Home({ params }) {
                         </Link>
                     </div>
                     <h1>Kamp ID: {params.id}</h1>
+                    <p>{kampData.id}</p>
+                    <p>{kampData.date}</p>
+                    <p>{kampData.time}</p>
+                    <p>{kampData.outTeam}</p>
+                    <p>{kampData.homeTeam}</p>
+                    <p>{kampData.homeTeamLogo}</p>
+                    <p>{kampData.outTeamLogo}</p>
+                    <p>{kampData.openingTime}</p>
+
+                    <div>
+                        {/* Render other information */}
+                        <SeatTable
+                            kampid={kampData.id}
+                            seats={section.seats}
+                            sæderPrRække={section.seatCount}
+                            rækker={section.rowsCount}
+                        />
+                    </div>
+
                     <div className="flex flex-col items-center content-center justify-center gap-3 p-5">
                         <div className="flex gap-3">
                             <div
