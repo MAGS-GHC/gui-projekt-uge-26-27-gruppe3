@@ -51,12 +51,14 @@ export class Match {
 export class Section {
   constructor(
     id,
+    section,
     rowsCount,
     standing,
     size,
     rows = this.getRows(id, rowsCount, size)
   ) {
     this.id = id;
+    this.section = section;
     this.rowsCount = rowsCount;
     this.rows = rows;
     this.standing = standing;
@@ -66,26 +68,32 @@ export class Section {
     let returnArray = [];
     for (let i = 1; i <= rowsCount; i++) {
       if (size == "Large") {
-        returnArray.push(new Row(id + "-" + i, 10, []));
+        returnArray.push(new Row(id + "-" + i, i, 10, []));
       } else {
-        returnArray.push(new Row(id + "-" + i, 6, []));
+        returnArray.push(new Row(id + "-" + i, i, 6, []));
       }
     }
     return returnArray;
   }
   toObject() {
-    return { id: this.id, rowsCount: this.rowsCount, standing: this.standing };
+    return {
+      id: this.id,
+      section: this.section,
+      rowsCount: this.rowsCount,
+      standing: this.standing,
+    };
   }
 }
 // Row class
 export class Row {
-  constructor(id, seatCount, seat) {
+  constructor(id, row, seatCount, seat) {
     this.id = id;
+    this.row = row;
     this.seatCount = seatCount;
     this.seats = seat;
   }
   toObject() {
-    return { id: this.id, seatCount: this.seatCount };
+    return { id: this.id, row: this.row, seatCount: this.seatCount };
   }
 }
 // Seat class
@@ -144,7 +152,7 @@ const getRow = async (matchId) => {
   const row = await getDocs(col);
   const data = row.docs.map((doc) => doc.data());
   for (let i = 0; i < data.length; i++) {
-    const newRow = new Row(data[i].id, data[i].seatCount, []);
+    const newRow = new Row(data[i].id, data[i].row, data[i].seatCount, []);
     for (let y = 0; y < seats.length; y++) {
       if (seats[y].id.includes(newRow.id + "-")) {
         newRow.seats.push(seats[y]);
@@ -172,6 +180,7 @@ const getSection = async (id) => {
       });
       const thisSection = new Section(
         x.id,
+        x.section,
         x.rowsCount,
         x.standing,
         null,
@@ -281,18 +290,18 @@ export const CreateMatch = async (
   openingTime
 ) => {
   const sections = [
-    new Section(id + "-A", 5, false, "Large"),
-    new Section(id + "-B", 5, true, "Large"),
-    new Section(id + "-C", 5, false, "Large"),
-    new Section(id + "-D", 5, false, "Small"),
-    new Section(id + "-E", 5, false, "Small"),
-    new Section(id + "-F", 5, false, "Small"),
-    new Section(id + "-G", 5, false, "Large"),
-    new Section(id + "-H", 5, false, "Large"),
-    new Section(id + "-I", 5, false, "Large"),
-    new Section(id + "-J", 5, false, "Small"),
-    new Section(id + "-K", 5, false, "Small"),
-    new Section(id + "-L", 5, false, "Small"),
+    new Section(id + "-A", "A", 5, false, "Large"),
+    new Section(id + "-B", "B", 5, true, "Large"),
+    new Section(id + "-C", "C", 5, false, "Large"),
+    new Section(id + "-D", "D", 5, false, "Small"),
+    new Section(id + "-E", "E", 5, false, "Small"),
+    new Section(id + "-F", "F", 5, false, "Small"),
+    new Section(id + "-G", "G", 5, false, "Large"),
+    new Section(id + "-H", "H", 5, false, "Large"),
+    new Section(id + "-I", "I", 5, false, "Large"),
+    new Section(id + "-J", "J", 5, false, "Small"),
+    new Section(id + "-K", "K", 5, false, "Small"),
+    new Section(id + "-L", "L", 5, false, "Small"),
   ];
   //CreateSections(id, sections);
   //CreateRows(id, sections);
@@ -313,7 +322,7 @@ export const CreateMatch = async (
 };
 // CreateMatch(
 //   "LBKVFF240723",
-//   "Fredag 28.JULI",
+//   "Fredag 28. JULI",
 //   "19:00",
 //   "LYNGBY BK",
 //   "VIBORG FF",
