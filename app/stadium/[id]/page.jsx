@@ -45,6 +45,33 @@ export default function Home({ params }) {
         }
         fetchData();
     }, []);
+
+    function handleSeatClick() {
+        async function fetchData() {
+            const response = await getMatch(params.id);
+
+            const match = new Match(
+                response.id,
+                response.date,
+                response.time,
+                response.outTeam,
+                response.homeTeam,
+                response.homeTeamLogo,
+                response.outTeamLogo,
+                response.openingTime,
+                response.sections
+            );
+            match.sections.forEach((x) => {
+                x.seats.sort((a, b) => a.number - b.number);
+            });
+            setKampData(match);
+
+            setLoading(false);
+            console.log(match);
+        }
+        fetchData();
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -76,6 +103,7 @@ export default function Home({ params }) {
                             seats={section.seats}
                             sæderPrRække={section.seatCount}
                             rækker={section.rowsCount}
+                            seatClick={handleSeatClick}
                         />
                     </div>
 

@@ -89,16 +89,22 @@ export class Row {
         this.seats = seat;
     }
     toObject() {
-        return { id: this.id, row: this.row, seatCount: this.seatCount };
+        return {
+            id: this.id,
+            row: this.row,
+            seatCount: this.seatCount,
+        };
     }
 }
 // Seat class
 export class Seat {
-    constructor(id, number, reserved, price) {
+    constructor(id, number, reserved, price, bought = false, sessionId = null) {
         this.id = id;
         this.number = number;
         this.reserved = reserved;
         this.price = price;
+        this.bought = bought;
+        this.sessionId = sessionId;
     }
     toObject() {
         return {
@@ -106,6 +112,8 @@ export class Seat {
             number: this.number,
             reserved: this.reserved,
             price: this.price,
+            bought: this.bought,
+            sessionId: this.sessionId,
         };
     }
 }
@@ -415,10 +423,14 @@ export const CreateMatch = async (
 //     "17:00"
 // );
 
-export const UpdateSeat = async (matchId, seatId, isreserved) => {
+export const UpdateSeat = async (matchId, seatId, isreserved, sessionId) => {
     const db = getFirestore(firebase);
     const doco = doc(db, matchId + "-seat", seatId);
-    const updatedSeat = updateDoc(doco, { reserved: !isreserved });
+    const updatedSeat = updateDoc(doco, { reserved: !isreserved, sessionId: sessionId });
 };
 
 //UpdateSeat("FCNVFF240723", "FCNVFF240723-A-1-1");
+
+// setInterval(() => {
+//     console.log("muhahahahaha");
+// }, 100000);

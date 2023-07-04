@@ -14,7 +14,14 @@ const SeatTable = (props) => {
             const seatsInRow = seats.slice(i * seatsPerRow, (i + 1) * seatsPerRow);
             const seatsElements = seatsInRow.map((seat) => (
                 <td key={seat.id}>
-                    <Sæde optaget={seat.reserved} id={seat.id} kampid={props.kampid} />
+                    <Sæde
+                        optaget={seat.reserved}
+                        id={seat.id}
+                        seatdata={seat}
+                        kampid={props.kampid}
+                        seatClick={props.seatClick}
+                        sectionid={seat.sessionId}
+                    />
                 </td>
             ));
 
