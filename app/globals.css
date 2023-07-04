@@ -3,8 +3,36 @@
 @tailwind utilities;
 
 
+.seat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
+.seat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  grid-gap: 5px;
+}
 
+.seat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.bookedsæde {
+    color: red;
+}
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
 
 .header {
     color: white;
