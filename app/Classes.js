@@ -447,14 +447,14 @@ export const UpdateSeat = async (matchId, seatId, isreserved, sessionId) => {
 
 //UpdateSeat("FCNVFF240723", "FCNVFF240723-A-1-1");
 
-setInterval(async () => {
-  const db = getFirestore(firebase);
-  const col = collection(db, "seat-reserved");
-  const seats = await getDocs(collection);
-  const data = seats.docs.map((doc) => doc.data());
-  const curentTime = new Date();
-  data.forEach((seat) => {});
-}, 100000);
+// setInterval(async () => {
+//   const db = getFirestore(firebase);
+//   const col = collection(db, "seat-reserved");
+//   const seats = await getDocs(collection);
+//   const data = seats.docs.map((doc) => doc.data());
+//   const curentTime = new Date();
+//   data.forEach((seat) => {});
+// }, 100000);
 export const reservedSeat = async (seat) => {
   try {
     const db = getFirestore(firebase);
