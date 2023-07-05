@@ -12,13 +12,13 @@ export default function Home() {
         <h1 className="text-3xl"><b>ORDER SUMMARY</b></h1>
         <div className="bg-white border-solid border-2 border-black rounded-md p-2">
           <ul>
-            <li> <b>x2</b> Billet (Viborg mod Herning) <button className="border border-solid border-black border-2 rounded-md p-1 bg-grey hover:text-white hover:bg-black"> <b>Edit order</b></button>
+            <li> <b>x2</b> Billet (Viborg mod Herning) <button className="border-solid border-black border-2 rounded-md p-1 bg-grey hover:text-white hover:bg-black"> <b>Edit order</b></button>
                 <ul className="pl-5 mt-2 space-y-1 list-inside">
                   <li> Pl. 2 Sek N</li>
                   <li> Pl. 3 Sek N</li>
                 </ul>
             </li>
-          </ul>  
+          </ul>
         </div>
       </div>
       <h1 className="flex col-span-12 justify-center text-3xl mb-0 sm:mb-10 mt-4">
@@ -26,7 +26,7 @@ export default function Home() {
       </h1>
       <div className="flex justify-center items-center h-screen sm:h-auto">
         <div className="flex flex-col sm:flex-row basis-1/3 sm:basis-2/3 justify-evenly text-4xl mt-0 sm:m-10">
-          <button className="bg-blue-500 hover:bg-blue-700 hover:text-white font-bold py-2 px-10 border-2 rounde-md bg-grey hover:bg-black" onClick={() => setSektion(1)}>
+          <button className="bg-blue-500 hover:bg-blue-700 hover:text-white font-bold py-2 px-10 border-2 rounded-md bg-grey hover:bg-black" onClick={() => setSektion(1)}>
             MobilePay
           </button>
           <button className="bg-blue-500 hover:bg-blue-700 hover:text-white font-bold py-2 px-10 border-2 rounded-md bg-grey hover:bg-black" onClick={() => setIsModalOpen(true)}>
