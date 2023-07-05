@@ -8,8 +8,8 @@ export const GetAllGameData = async () => {
     let gameData = [];
     snapshotArray.forEach((s) => gameData.push(s.data()));
 
-    /* // var kampDato = parseDatoString(props.dato);
-gameData.sort((a, b) => new Date(parseDatoString(a.date)) - new Date(parseDatoString(b.datetime)))
+    // var kampDato = parseDatoString(props.dato);
+gameData.sort((a, b) => new Date(parseDatoString(a.date)) - new Date(parseDatoString(b.date)))
 
 // Hjælpefunktion til at konvertere datoformatet til et Date-objekt
 function parseDatoString(dato) {
@@ -17,7 +17,7 @@ function parseDatoString(dato) {
     var dag = parseInt(splittedeDato[1], 10);
     var maaned = parseMaaned(splittedeDato[2]);
     return new Date(new Date().getFullYear(), maaned - 1, dag); // Måneder i JavaScript er nulbaserede
-} */
+}
 
     // Hjælpefunktion til at konvertere månedsnavnet til en numerisk værdi
     function parseMaaned(maaned) {

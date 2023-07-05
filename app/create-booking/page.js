@@ -3,177 +3,212 @@ import React from "react";
 export default function Home() {
     return (
         <main>
-            <div className="flex flex-col h-screen">
-                <div className="flex justify-center bg-dark-green text-green m-2 py-5 rounded-lg">
-                    <h1 className="h1-display">Vælg Sektion</h1>
+            <div className={"container"}>
+                <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
+                    <h1 className={"h1-display text-white text-center"}>Vælg Siddepladser</h1>
                 </div>
-                <div className="flex-grow mx-1">
-                    <div className={"flex-row"}>
-                        <div className="grid grid-cols-5 px-2 gap-1">
-                            <div className="flex justify-center">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-12 sm:px-4 border border-green"
-                                    }>
-                                    Sektion A
-                                </button>
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-12 sm:px-4 border border-green"
-                                    }>
-                                    Sektion B
-                                </button>
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-12 sm:px-4 border border-green"
-                                    }>
-                                    Sektion C
-                                </button>
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-12 sm:px-4 border border-green"
-                                    }>
-                                    Sektion D
-                                </button>
-                            </div>
-                            <div className="flex justify-center">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-12 sm:px-4 border border-green"
-                                    }>
-                                    Sektion E
-                                </button>
-                            </div>
+                <div id={"MainGrid"} className={"grid grid-rows-6 mx-4 gap-4"}>
+                    <div className={"grid grid-cols-5 gap-2"} id={"TopSectionRow"}>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion A
+                            </button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion B</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion C</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion D</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion E</button>
+                    </div>
+                    <div className={"grid grid-cols-5 row-span-3"} id={"MiddleSectionRow"}>
+                        <div className={"grid-rows-3 col-start-1 inline-grid my-4 gap-2"}>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion M</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion M Fans</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion L</button>
+                        </div>
+                        <div className={"container col-start-2 col-span-3 w-1/2"} id={"ImageContainer"}>
+                            <img className={"rotate-90"} src={"https://static.vecteezy.com/system/resources/previews/000/542/326/original/football-soccer-stadiun-field-vector.jpg"} alt={"Image of the Stadium"}/>
+                        </div>
+                        <div className={"grid-rows-4 col-start-5 inline-grid gap-2 my-2"}>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion F1</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion F2</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion U1</button>
+                            <button className={
+                                "border border-green hover:bg-light-blue " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion U2</button>
                         </div>
                     </div>
-                    <div className={"flex-row items-center col-start-1"}>
-                        <div className={"grid grid-cols-5 px-3"}>
-                            <div className="grid" id={"col-1"}>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-8 md:py-4 sm:py-2 lg:px-12 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Sektion M
-                                    </button>
-                                </div>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-8 md:py-4 sm:py-2 lg:px-12 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        M (Fans)
-                                    </button>
-                                </div>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-8 md:py-4 sm:py-2 lg:px-12 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Sektion L
-                                    </button>
-                                </div>
-                            </div>
-                            <div
-                                className="grid items-center col-start-3 w-100 h-100"
-                                id={"col-img"}>
-                                <img
-                                    src="https://static.vecteezy.com/system/resources/previews/000/542/326/original/football-soccer-stadiun-field-vector.jpg"
-                                    className="rotate-90 object-cover"
-                                    alt={""}
-                                />
-                            </div>
-                            <div className="grid col-start-5" id={"col-2"}>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Sektion F1
-                                    </button>
-                                </div>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Sektion F2
-                                    </button>
-                                </div>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Ude Fans
-                                    </button>
-                                </div>
-                                <div className="flex justify-center">
-                                    <button
-                                        className={
-                                            "my-2 lg:py-20 md:py-16 sm:py-4 lg:px-24 md:px-16 sm:px-4 border border-green"
-                                        }>
-                                        Ude Fans
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div className={"grid grid-cols-5 gap-2"} id={"BottomSectionRow"}>
+                        <button className={
+                            "border border-green hover:bg-light-blue " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion K</button>
+                        <button className={
+                            "border border-green hover:bg-light-blue " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion J</button>
+                        <button className={
+                            "border border-green hover:bg-light-blue " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion I</button>
+                        <button className={
+                            "border border-green hover:bg-light-blue " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion H</button>
+                        <button className={
+                            "border border-green hover:bg-light-blue " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion G</button>
                     </div>
-                    <div className={"flex-row text-center"}>
-                        <div className="grid grid-cols-5 px-3 gap-1">
-                            <div className="">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-10 sm:py-5 lg:px-20 md:px-10 sm:px-5 border border-green"
-                                    }>
-                                    Sektion K
-                                </button>
-                            </div>
-                            <div className="">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-10 sm:py-5 lg:px-20 md:px-10 sm:px-5 border border-green"
-                                    }>
-                                    J (Nedre)
-                                </button>
-                            </div>
-                            <div className="">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-10 sm:py-5 lg:px-20 md:px-10 sm:px-5 border border-green"
-                                    }>
-                                    I (Nedre)
-                                </button>
-                            </div>
-                            <div className="">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-10 sm:py-5 lg:px-20 md:px-10 sm:px-5 border border-green"
-                                    }>
-                                    H (Nedre)
-                                </button>
-                            </div>
-                            <div className="">
-                                <button
-                                    className={
-                                        "my-2 lg:py-20 md:py-10 sm:py-5 lg:px-20 md:px-10 sm:px-5 border border-green"
-                                    }>
-                                    Sektion G
-                                </button>
-                            </div>
-                        </div>
+                    <div className={"grid grid-cols-5"} id={"SubmitButtonRow"}>
+                        <button id={"NextButton"} className={
+                            "xl:col-start-5 xl:my-10 " +
+                            "lg:max-xl:col-start-5 lg:my-8 " +
+                            "md:max-lg:col-start-5 md:my-5 " +
+                            "sm:max-md:col-start-5 sm:my-4 " +
+                            "min-[500px]:max-sm:col-start-4 min-[500px]:max-sm:col-span-2 min-[500px]:max-sm:py-2 " +
+                            "min-[400px]:max-[500px]:col-start-4 min-[400px]:max-[500px]:col-span-2 min-[400px]:max-[500px]:my-3 " +
+                            "min-[320px]:max-[400px]:col-start-4 " +
+                            "rounded " +
+                            "bg-green " +
+                            "border-2 border-black " +
+                            "hover:bg-light-blue"
+                        }>
+                            Til Betaling →
+                        </button>
                     </div>
-                </div>
-                <div className="h-15 flex items-end justify-end">
-                    <button className={"bg-dark-green text-white m-2 p-4 border rounded"}>
-                        Vælg Siddepladser
-                    </button>
                 </div>
             </div>
         </main>
