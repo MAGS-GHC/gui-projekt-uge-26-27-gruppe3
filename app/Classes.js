@@ -10,6 +10,7 @@ import {
     doc,
     getDoc,
     updateDoc,
+    deleteDoc,
 } from "firebase/firestore";
 import { get } from "firebase/database";
 
@@ -98,22 +99,36 @@ export class Row {
 }
 // Seat class
 export class Seat {
-    constructor(id, number, reserved, price, bought = false, sessionId = null) {
+    constructor(
+        id,
+        matchId,
+        number,
+        reserved,
+        price,
+        sessionId = null,
+        bought = false,
+
+        reservedTime = "null"
+    ) {
         this.id = id;
+        this.matchId = matchId;
         this.number = number;
         this.reserved = reserved;
         this.price = price;
         this.bought = bought;
         this.sessionId = sessionId;
+        this.reservedTime = reservedTime;
     }
     toObject() {
         return {
             id: this.id,
+            matchId: this.matchId,
             number: this.number,
             reserved: this.reserved,
             price: this.price,
             bought: this.bought,
             sessionId: this.sessionId,
+            reservedTime: this.reservedTime,
         };
     }
 }
@@ -142,7 +157,18 @@ const getSeat = async (id) => {
     const seat = await getDocs(col);
     const data = seat.docs.map((doc) => doc.data());
     data.forEach((x) => {
-        returnArray.push(new Seat(x.id, x.number, x.reserved, x.price));
+        returnArray.push(
+            new Seat(
+                x.id,
+                x.matchId,
+                x.number,
+                x.reserved,
+                x.price,
+                x.sessionId,
+                x.bought,
+                x.reservedTime
+            )
+        );
     });
     return returnArray;
 };
@@ -358,7 +384,7 @@ const CreateSeats = async (id, sections) => {
     sections.forEach(async (x) => {
         const col = collection(db, id + "-seat");
         for (let i = 1; i <= x.seatCount * x.rowsCount; i++) {
-            const seat = new Seat(`${x.id}-${i}`, i, false, 0);
+            const seat = new Seat(`${x.id}-${i}`, id, i, false, 0);
             const setdoc = await setDoc(doc(col, `${x.id}-${i}`), seat.toObject());
         }
     });
@@ -383,18 +409,18 @@ export const CreateMatch = async (
     openingTime
 ) => {
     const sections = [
-        new Section(id + "-A", "A", 5, 10, false, "Large"),
-        new Section(id + "-B", "B", 5, 10, true, "Large"),
-        new Section(id + "-C", "C", 5, 10, false, "Large"),
-        new Section(id + "-D", "D", 5, 10, false, "Small"),
-        new Section(id + "-E", "E", 5, 10, false, "Small"),
-        new Section(id + "-F", "F", 5, 10, false, "Small"),
-        new Section(id + "-G", "G", 5, 10, false, "Large"),
-        new Section(id + "-H", "H", 5, 10, false, "Large"),
-        new Section(id + "-I", "I", 5, 10, false, "Large"),
-        new Section(id + "-J", "J", 5, 10, false, "Small"),
-        new Section(id + "-K", "K", 5, 10, false, "Small"),
-        new Section(id + "-L", "L", 5, 10, false, "Small"),
+        new Section(id + "-A", "A", 2, 5, false, "Large"),
+        //new Section(id + "-B", "B", 5, 10, true, "Large"),
+        // new Section(id + "-C", "C", 5, 10, false, "Large"),
+        // new Section(id + "-D", "D", 5, 10, false, "Small"),
+        // new Section(id + "-E", "E", 5, 10, false, "Small"),
+        // new Section(id + "-F", "F", 5, 10, false, "Small"),
+        // new Section(id + "-G", "G", 5, 10, false, "Large"),
+        // new Section(id + "-H", "H", 5, 10, false, "Large"),
+        // new Section(id + "-I", "I", 5, 10, false, "Large"),
+        // new Section(id + "-J", "J", 5, 10, false, "Small"),
+        // new Section(id + "-K", "K", 5, 10, false, "Small"),
+        // new Section(id + "-L", "L", 5, 10, false, "Small"),
     ];
     CreateSections(id, sections);
     CreateSeats(id, sections);
@@ -423,14 +449,62 @@ export const CreateMatch = async (
 //     "17:00"
 // );
 
-export const UpdateSeat = async (matchId, seatId, isreserved, sessionId) => {
+export const UpdateSeat = async (matchId, seatId, seat) => {
     const db = getFirestore(firebase);
     const doco = doc(db, matchId + "-seat", seatId);
-    const updatedSeat = updateDoc(doco, { reserved: !isreserved, sessionId: sessionId });
+    const updatedSeat = updateDoc(doco, seat.toObject());
 };
 
 //UpdateSeat("FCNVFF240723", "FCNVFF240723-A-1-1");
 
-// setInterval(() => {
-//     console.log("muhahahahaha");
-// }, 100000);
+setInterval(async () => {
+    const db = getFirestore(firebase);
+    const col = collection(db, "seat-reserved");
+    const seats = await getDocs(col);
+
+    const data = seats.docs.map((doc) => doc.data());
+    const curentTime = new Date().getTime();
+    console.log("update");
+    data.forEach((x) => {
+        if (x.reservedTime + 600000 < curentTime) {
+            const seat = new Seat(
+                x.id,
+                x.matchId,
+                x.number,
+                x.reserved,
+                x.price,
+                x.sessionId,
+                x.bought,
+                x.reservedTime
+            );
+            seat.reserved = false;
+            seat.sessionId = null;
+            UpdateSeat(seat.matchId, seat.id, seat);
+            removeData(seat.id);
+            console.log("seat released");
+        }
+    });
+}, 60000);
+export const reservedSeat = async (seat) => {
+    try {
+        const db = getFirestore(firebase);
+        const col = collection(db, "seat-reserved");
+        const setdoc = await setDoc(doc(col, seat.id), seat.toObject());
+        console.log(seat);
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const getSessionData = async (matchId, seat) => {
+    const db = getFirestore(firebase);
+    const doco = doc(db, matchId + "-seat", seat.id);
+    const data = await getDoc(doco);
+    return data.data().sessionId;
+};
+
+export const removeData = async (seatId) => {
+    const db = getFirestore(firebase);
+    const doco = doc(db, "seat-reserved", seatId);
+    await deleteDoc(doco);
+    console.log("seatRemoved");
+};

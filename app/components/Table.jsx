@@ -20,7 +20,7 @@ const SeatTable = (props) => {
                         seatdata={seat}
                         kampid={props.kampid}
                         seatClick={props.seatClick}
-                        sectionid={seat.sessionId}
+                        sessionid={seat.sessionId}
                     />
                 </td>
             ));
