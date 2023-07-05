@@ -1,9 +1,7 @@
 // 'use server';
 import { currentUser } from "@clerk/nextjs";
-import { sendEmail } from "../emailConfirmation.js";
-
-export default async function AddHobby() {
-async function getUserInfo() {
+ 
+export async function getUserInfo() {
     const user = await currentUser();
     if (!user) {
         throw new Error("You must be signed in to use this feature");
@@ -11,14 +9,8 @@ async function getUserInfo() {
     const serverData = {
         userId: user.id,
         userName: user.username,
-        emailAddres: user.emailAddresses[0].emailAddress,
+        emailAddres: user.primaryEmailAddressId[0],
     };
     console.log(serverData);
     return serverData;
-}
-
-const user = await getUserInfo();
-const mail = await sendEmail(user.emailAddres, '23456', user.userName);
-
-console.log(mail);
 }

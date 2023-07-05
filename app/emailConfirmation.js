@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-export const sendEmail = async (sendTo, reservedSeats) => {
+export const sendEmail = async (sendTo, reservedSeats, userName) => {
   try {
     // Create a transporter using Gmail SMTP settings
     const transporter = nodemailer.createTransport({
