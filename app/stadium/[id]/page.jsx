@@ -20,6 +20,8 @@ export default function Home({ params }) {
     const [loading, setLoading] = useState(true);
     const [numRows, setNumRows] = useState(0);
     const [numSeats, setNumSeats] = useState(0);
+    const [section, setSection] = useState(null);
+
     useEffect(() => {
         async function fetchData() {
             const response = await getMatch(params.id);
@@ -39,43 +41,41 @@ export default function Home({ params }) {
                 x.seats.sort((a, b) => a.number - b.number);
             });
             setKampData(match);
-
+            setSection(match.sections[0]);
             setLoading(false);
-            console.log(match);
         }
         fetchData();
     }, []);
 
-    function handleSeatClick() {
-        async function fetchData() {
-            const response = await getMatch(params.id);
+    /* setInterval(() => {
+        handleSeatClick();
+    }, 1000); */
 
-            const match = new Match(
-                response.id,
-                response.date,
-                response.time,
-                response.outTeam,
-                response.homeTeam,
-                response.homeTeamLogo,
-                response.outTeamLogo,
-                response.openingTime,
-                response.sections
-            );
-            match.sections.forEach((x) => {
-                x.seats.sort((a, b) => a.number - b.number);
-            });
-            setKampData(match);
+    async function handleSeatClick() {
+        const response = await getMatch(params.id);
 
-            setLoading(false);
-            console.log(match);
-        }
-        fetchData();
+        const match = new Match(
+            response.id,
+            response.date,
+            response.time,
+            response.outTeam,
+            response.homeTeam,
+            response.homeTeamLogo,
+            response.outTeamLogo,
+            response.openingTime,
+            response.sections
+        );
+
+        match.sections.forEach((x) => {
+            x.seats.sort((a, b) => a.number - b.number);
+        });
+        setKampData(match);
+        setSection(match.sections[0]);
     }
 
     if (loading) {
         return <div>Loading...</div>;
     }
-    const section = kampData.sections[0];
 
     return (
         <main>
