@@ -27,7 +27,7 @@ import "firebase/database";
 //     storageBucket: "vffgroupe3.appspot.com",
 //     messagingSenderId: "1048216584094",
 //     appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
-//     measurementId: "G-H5ZPJP69P4"
+//     measurementId: "G-H5ZPJP69P4",
 // };
 //kim2
 const firebaseConfig = {

@@ -1,4 +1,4 @@
-// 'use server';
+"use server";
 import { sendEmail } from "../emailConfirmation.js";
 import { currentUser } from "@clerk/nextjs";
 

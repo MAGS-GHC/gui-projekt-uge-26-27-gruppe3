@@ -1,6 +1,7 @@
 import { Noto_Serif_Tamil } from "next/font/google";
 import { app } from "./firebaseConnect";
 import firebase from "./firebaseConnect.js";
+import { getUserData } from "./getUserData.js";
 
 import {
     getFirestore,
@@ -15,15 +16,18 @@ import {
 import { get } from "firebase/database";
 
 export class Order {
-    constructor(id, seatsId, createTime) {
-        (this.id = id), (this.seatsId = seatsId);
+    constructor(id, seatsId, createTime, totalPrice) {
+        this.id = id;
+        this.seatsId = seatsId;
         this.createTime = createTime;
+        this.totalPrice = totalPrice;
     }
     toObject() {
         return {
             id: this.id,
             seatsId: this.seatsId,
             createTime: this.createTime,
+            totalPrice: this.totalPrice,
         };
     }
 }
@@ -398,7 +402,7 @@ const CreateSeats = async (id, sections) => {
     sections.forEach(async (x) => {
         const col = collection(db, id + "-seat");
         for (let i = 1; i <= x.seatCount * x.rowsCount; i++) {
-            const seat = new Seat(`${x.id}-${i}`, id, i, false, 0);
+            const seat = new Seat(`${x.id}-${i}`, id, i, false, 10);
             const setdoc = await setDoc(doc(col, `${x.id}-${i}`), seat.toObject());
         }
     });
@@ -411,7 +415,9 @@ const CreateSections = async (id, sections) => {
         const setdoc = await setDoc(doc(col, x.id), x.toObject());
     });
 };
-
+export const getUserId = async () => {
+    return await getUserData().userId;
+};
 export const CreateMatch = async (
     id,
     date,
@@ -423,7 +429,7 @@ export const CreateMatch = async (
     openingTime
 ) => {
     const sections = [
-        new Section(id + "-A", "A", 10, 25, false, "Large"),
+        new Section(id + "-A", "A", 3, 5, false, "Large"),
         new Section(id + "-B", "B", 2, 5, true, "Large"),
         // new Section(id + "-C", "C", 5, 10, false, "Large"),
         // new Section(id + "-D", "D", 5, 10, false, "Small"),
@@ -504,7 +510,6 @@ export const reservedSeat = async (seat) => {
         const db = getFirestore(firebase);
         const col = collection(db, "seat-reserved");
         const setdoc = await setDoc(doc(col, seat.id), seat.toObject());
-        console.log(seat);
     } catch (error) {
         console.log(error);
     }
@@ -523,9 +528,45 @@ export const removeData = async (seatId) => {
     console.log("seatRemoved");
 };
 
-export const createOrder = async (orderId, seatId, time) => {
-    const order = new Order(orderId, seatId, time);
+export const createOrder = async (order, seat, time) => {
+    const userData = await getUserData();
+    order.id = userData.userId;
+    order.createTime = time;
+
+    order.seatsId.push(seat.id);
+
+    // const totalPrice = price.reduce((total, current) => {
+    //     return total + current;
+    // });
+
     const db = getFirestore(firebase);
-    const doco = doc(db, "orders", order.toObject());
-    const saveDoc = await setDoc(doco);
+    const doco = doc(db, "orders", userData.userId);
+    const saveDoc = await setDoc(doco, order.toObject());
+};
+export const deleteSeatFromOrder = async (order, seat, time) => {
+    const userData = await getUserData();
+    order.id = userData.userId;
+    order.createTime = time;
+
+    order.seatsId = order.seatsId.filter((x) => {
+        console.log(x, seat.id);
+        return x !== seat.id;
+    });
+
+    // const totalPrice = price.reduce((total, current) => {
+    //     return total + current;
+    // });
+
+    const db = getFirestore(firebase);
+    const doco = doc(db, "orders", userData.userId);
+    const saveDoc = await setDoc(doco, order.toObject());
+};
+
+export const getOrder = async () => {
+    const userData = await getUserData();
+    const db = getFirestore(firebase);
+    const doco = doc(db, "orders", userData.userId);
+    const data = await getDoc(doco);
+
+    return data.data();
 };
