@@ -6,7 +6,7 @@ import NoClickSeat from "@/app/components/NoClickSeat";
 import VælgSæde from "@/app/components/VælgSæde";
 import Grid from "@/app/components/Grid";
 import Link from "next/link";
-import { getMatch, Match } from "@/app/Classes";
+import { getMatch, Match, createOrder } from "@/app/Classes";
 import SeatTable from "@/app/components/Table";
 import Section from "@/app/components/Section";
 //import { set } from "firebase/database";
