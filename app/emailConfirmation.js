@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 // Make a export funtion that is async to send mails
-export const sendEmail = async (sendTo, reservedSeats, userName) => {
+export const sendEmail = async (sendTo, reservedSeats) => {
   try {
     // Using nodemailer a transpoerter object is made that logs into the account from
     // where the mail is sent from and tells it what kind of mailservice is used
