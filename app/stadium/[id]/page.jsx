@@ -1,13 +1,15 @@
 "use client";
 
+
+import Image from "next/image";
 import { useState, useEffect, Fragment } from "react";
-import NoClickSeat from "../../components/NoClickSeat";
-import VælgSæde from "../../components/VælgSæde";
-import Grid from "../../components/Grid";
+import NoClickSeat from "@/app/components/NoClickSeat";
+import VælgSæde from "@/app/components/VælgSæde";
+import Grid from "@/app/components/Grid";
 import Link from "next/link";
 import { getMatch, Match } from "@/app/Classes";
-import SeatTable from "../../components/Table";
-import { set } from "firebase/database";
+import SeatTable from "@/app/components/Table";
+//import { set } from "firebase/database";
 
 export default function Home({ params }) {
     let seatArray = [
@@ -20,6 +22,8 @@ export default function Home({ params }) {
     const [loading, setLoading] = useState(true);
     const [numRows, setNumRows] = useState(0);
     const [numSeats, setNumSeats] = useState(0);
+    const [section, setSection] = useState(null);
+
     useEffect(() => {
         async function fetchData() {
             const response = await getMatch(params.id);
@@ -39,64 +43,310 @@ export default function Home({ params }) {
                 x.seats.sort((a, b) => a.number - b.number);
             });
             setKampData(match);
-
+            setSection(match.sections[0]);
             setLoading(false);
-            console.log(match);
         }
         fetchData();
     }, []);
 
-    function handleSeatClick() {
-        async function fetchData() {
-            const response = await getMatch(params.id);
 
-            const match = new Match(
-                response.id,
-                response.date,
-                response.time,
-                response.outTeam,
-                response.homeTeam,
-                response.homeTeamLogo,
-                response.outTeamLogo,
-                response.openingTime,
-                response.sections
-            );
-            match.sections.forEach((x) => {
-                x.seats.sort((a, b) => a.number - b.number);
-            });
-            setKampData(match);
+    async function handleSeatClick() {
+        const response = await getMatch(params.id);
 
-            setLoading(false);
-            console.log(match);
-        }
-        fetchData();
+        const match = new Match(
+            response.id,
+            response.date,
+            response.time,
+            response.outTeam,
+            response.homeTeam,
+            response.homeTeamLogo,
+            response.outTeamLogo,
+            response.openingTime,
+            response.sections
+        );
+
+        match.sections.forEach((x) => {
+            x.seats.sort((a, b) => a.number - b.number);
+        });
+        setKampData(match);
+        setSection(match.sections[0]);
     }
 
     if (loading) {
         return <div>Loading...</div>;
     }
-    const section = kampData.sections[0];
-
     return (
         <main>
-            <section>
-                <div className="container">
-                    <div className="container">
-                        <Link href={"/payment"} passHref={true}>
-                            <button className="text-black">Køb billetter</button>
-                        </Link>
+        {console.log(kampData)}
+            <div className={"container"}>
+                <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
+                    <h1 className={"h1-display text-white text-center"}>
+                        Vælg Siddepladser
+                    </h1>
+                </div>
+                <div id={"MainGrid"} className={"grid grid-rows-6 mx-4 gap-2"}>
+                    <div className={"grid grid-cols-5 gap-2"} id={"TopSectionRow"}>
+                            <button onClick={() => setSektion("A")} className={
+                                " " +
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion A</button>
+                            <button onClick={() => setSektion("B")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion B</button>
+                            <button onClick={() => setSektion("C")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion C</button>
+                            <button onClick={() => setSektion("D")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion D</button>
+                            <button onClick={() => setSektion("E")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-2 " +
+                                "lg:text-lg lg:my-3 " +
+                                "md:text-md md:my-3 " +
+                                "sm:text-sm sm:my-3 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion E</button>
                     </div>
-                    <h1>Kamp ID: {params.id}</h1>
-                    <p>{kampData.id}</p>
-                    <p>{kampData.date}</p>
-                    <p>{kampData.time}</p>
-                    <p>{kampData.outTeam}</p>
-                    <p>{kampData.homeTeam}</p>
-                    <p>{kampData.homeTeamLogo}</p>
-                    <p>{kampData.outTeamLogo}</p>
-                    <p>{kampData.openingTime}</p>
+                    <div className={"grid grid-cols-5 row-span-3"} id={"MiddleSectionRow"}>
+                        <div className={"grid-rows-3 col-start-1 inline-grid my-4 gap-2"}>
+                            <button onClick={() => setSektion("F")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion M</button>
+                            <button onClick={() => setSektion("G")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion M Fans</button>
+                            <button onClick={() => setSektion("H")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-2 " +
+                                "sm:text-sm sm:my-2 " +
+                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion L</button>
+                        </div>
+                        <div className={"container col-start-2 col-span-3 w-1/2"} id={"ImageContainer"}>
+                            <Image className={"rotate-90"} height={320} width={480} src={"/stadium.jpg"} alt={"Image of the Stadium"}/>
+                        </div>
+                        <div className={"grid-rows-4 col-start-5 inline-grid gap-2 my-2"}>
+                            <button onClick={() => setSektion("F1")} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion F1</button>
+                            <button onClick={() => setSektion()} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion F2</button>
+                            <button onClick={() => setSektion()} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion U1</button>
+                            <button onClick={() => setSektion()} className={
+                                "border border-green hover:bg-light-blue " +
+                                "rounded " +
+                                "xl:text-xl xl:my-0 " +
+                                "lg:text-lg lg:my-1 " +
+                                "md:text-md md:my-1 " +
+                                "sm:text-sm sm:my-1 " +
+                                "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
+                                "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
+                                "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
+                            }>Sektion U2</button>
+                        </div>
+                    </div>
+                    <div className={"grid grid-cols-5 gap-2"} id={"BottomSectionRow"}>
+                        <button onClick={() => setSektion("K")} className={
+                            "border border-green hover:bg-light-blue " +
+                            "rounded " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion K</button>
+                        <button onClick={() => setSektion("J")} className={
+                            "border border-green hover:bg-light-blue " +
+                            "rounded " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion J</button>
+                        <button onClick={() => setSektion("I")} className={
+                            "border border-green hover:bg-light-blue " +
+                            "rounded " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion I</button>
+                        <button onClick={() => setSektion("H")} className={
+                            "border border-green hover:bg-light-blue " +
+                            "rounded " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion H</button>
+                        <button onClick={() => setSektion("G")} className={
+                            "border border-green hover:bg-light-blue " +
+                            "rounded " +
+                            "xl:text-xl xl:my-2 " +
+                            "lg:text-lg lg:my-3 " +
+                            "md:text-md md:my-3 " +
+                            "sm:text-sm sm:my-3 " +
+                            "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
+                            "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
+                            "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
+                        }>Sektion G</button>
+                    </div>
+                    <div className={"grid grid-cols-5"} id={"SelectionRow"}>
 
-                    <div>
+                    </div>
+                </div>
+                <div className="fixed bottom-10 right-10">
+                    <Link href={`/payment`}>
+                    <button id={"NextButton"} className={
+                        "xl:text-xl xl:py-6 xl:px-8 " +
+                        "lg:text-lg lg:py-4 lg:px-8 " +
+                        "md:text-md md:py-4 md:px-8 " +
+                        "sm:text-sm sm:py-4 sm:px-8 " +
+                        "min-[500px]:text-sm min-[500px]:py-4 min-[500px]:px-8 " +
+                        "min-[400px]:text-sm min-[400px]:py-4 min-[400px]:px-8 " +
+                        "min-[320px]:text-sm min-[320px]:py-4 min-[320px]:px-8 " +
+                        "rounded " +
+                        "bg-[#caffee] hover:bg-[#caffaa] " +
+                        "border-2 border-black " +
+                        "hover:bg-light-blue"
+                    }>
+                        Til Betaling →
+                    </button>
+                    </Link>
+                    
+                </div>
+            </div>
+            <section>
+            <div className="container">
+                    {sektion == "A" ? (
+                        
+                        <div>
+                            {
+                                //kan du ikke lige få esben til at se på den her
+                        kampData.sections.map(section => {
+                        if (section === "A") {
+                        return <SeatTable
+                            kampid={kampData.id}
+                            seats={kampData.sections[1].seats}
+                            sæderPrRække={kampData.sections[1].seatCount}
+                            rækker={kampData.sections[1].rowsCount}
+                            seatClick={handleSeatClick}
+                        />;
+  }
+  return null; // Hvis betingelsen ikke opfyldes, returneres null eller intet
+})}    
+                         </div>
+                    ) : null}
+                    {sektion == "B" ? (
+                        <div>
+                        {/* Render other information */}
+                        
+                        <SeatTable
+                            kampid={kampData.id}
+                            seats={kampData.sections[1].seats}
+                            sæderPrRække={kampData.sections[1].seatCount}
+                            rækker={kampData.sections[1].rowsCount}
+                            seatClick={handleSeatClick}
+                        />
+                    </div>
+                    ) : null}
+                    {sektion == "C" ? (
+                       <div>
                         {/* Render other information */}
                         <SeatTable
                             kampid={kampData.id}
@@ -106,130 +356,43 @@ export default function Home({ params }) {
                             seatClick={handleSeatClick}
                         />
                     </div>
-
-                    <div className="flex flex-col items-center content-center justify-center gap-3 p-5">
-                        <div className="flex gap-3">
-                            <div
-                                onClick={() => setSektion(1)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                            <div
-                                onClick={() => setSektion(2)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                            <div
-                                onClick={() => setSektion(3)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                        </div>
-                        <div className="flex justify-center items-center gap-3">
-                            <div className="flex flex-col gap-10">
-                                <div
-                                    onClick={() => setSektion(4)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                                <div
-                                    onClick={() => setSektion(5)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                                <div
-                                    onClick={() => setSektion(6)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                            </div>
-
-                            <img
-                                src="https://static.vecteezy.com/system/resources/previews/000/542/326/original/football-soccer-stadiun-field-vector.jpg"
-                                className="w-1/3"
-                            />
-                            <div className="flex flex-col gap-10">
-                                <div
-                                    onClick={() => setSektion(7)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                                <div
-                                    onClick={() => setSektion(8)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                                <div
-                                    onClick={() => setSektion(9)}
-                                    className="rotate-90 grid w-1/8 grid-cols-6 gap-x-300 p-2 gap-y-3">
-                                    {seatArray.map((item, index) => {
-                                        return <NoClickSeat key={index} />;
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3">
-                            <div
-                                onClick={() => setSektion(10)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                            <div
-                                onClick={() => setSektion(11)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                            <div
-                                onClick={() => setSektion(12)}
-                                className="grid w-1/8 grid-cols-6 gap-x-300 gap-y-3">
-                                {seatArray.map((item, index) => {
-                                    return <NoClickSeat key={index} />;
-                                })}
-                            </div>
-                        </div>
+                    ) : null}
+                    {sektion == "D" ? (
+                        <div>
+                        {/* Render other information */}
+                        <SeatTable
+                            kampid={kampData.id}
+                            seats={section.seats}
+                            sæderPrRække={section.seatCount}
+                            rækker={section.rowsCount}
+                            seatClick={handleSeatClick}
+                        />
                     </div>
-                </div>
-            </section>
-            <section>
-                <div className="container">
-                    {sektion == 1 ? (
-                        <VælgSæde sektion="Sektion 1" sædeAntal={50} rækker={10} />
                     ) : null}
-                    {sektion == 2 ? (
-                        <VælgSæde sektion="Sektion 2" sædeAntal={50} rækker={12} />
+                    {sektion == "E" ? (
+                        <div>
+                        {/* Render other information */}
+                        
+                        <SeatTable
+                            kampid={kampData.id}
+                            seats={section.seats}
+                            sæderPrRække={section.seatCount}
+                            rækker={section.rowsCount}
+                            seatClick={handleSeatClick}
+                        />
+                    </div>
                     ) : null}
-                    {sektion == 3 ? (
-                        <VælgSæde sektion="Sektion 3" sædeAntal={70} rækker={13} />
-                    ) : null}
-                    {sektion == 4 ? (
-                        <VælgSæde sektion="Sektion 4" sædeAntal={30} rækker={15} />
-                    ) : null}
-                    {sektion == 5 ? (
-                        <VælgSæde sektion="Sektion 5" sædeAntal={150} rækker={20} />
-                    ) : null}
-                    {sektion == 6 ? (
-                        <VælgSæde sektion="Sektion 6" sædeAntal={200} rækker={10} />
+                    {sektion == "F" ? (
+                        <div>
+                        {/* Render other information */}
+                        <SeatTable
+                            kampid={kampData.id}
+                            seats={section.seats}
+                            sæderPrRække={section.seatCount}
+                            rækker={section.rowsCount}
+                            seatClick={handleSeatClick}
+                        />
+                    </div>
                     ) : null}
                 </div>
             </section>
