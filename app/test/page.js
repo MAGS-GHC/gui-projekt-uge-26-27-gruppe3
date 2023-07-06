@@ -22,6 +22,4 @@ async function getUserInfo() {
 // the info to the send email function the numbers '23456' represents the seat info to test
 const user = await getUserInfo();
 const mail = await sendEmail(user.emailAddres, '23456');
-
-console.log(mail);
 }
