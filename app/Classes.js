@@ -410,7 +410,7 @@ export const CreateMatch = async (
 ) => {
     const sections = [
         new Section(id + "-A", "A", 2, 5, false, "Large"),
-        //new Section(id + "-B", "B", 5, 10, true, "Large"),
+        new Section(id + "-B", "B", 2, 5, true, "Large"),
         // new Section(id + "-C", "C", 5, 10, false, "Large"),
         // new Section(id + "-D", "D", 5, 10, false, "Small"),
         // new Section(id + "-E", "E", 5, 10, false, "Small"),
@@ -457,34 +457,34 @@ export const UpdateSeat = async (matchId, seatId, seat) => {
 
 //UpdateSeat("FCNVFF240723", "FCNVFF240723-A-1-1");
 
-setInterval(async () => {
-    const db = getFirestore(firebase);
-    const col = collection(db, "seat-reserved");
-    const seats = await getDocs(col);
+// setInterval(async () => {
+//     const db = getFirestore(firebase);
+//     const col = collection(db, "seat-reserved");
+//     const seats = await getDocs(col);
 
-    const data = seats.docs.map((doc) => doc.data());
-    const curentTime = new Date().getTime();
-    console.log("update");
-    data.forEach((x) => {
-        if (x.reservedTime + 600000 < curentTime) {
-            const seat = new Seat(
-                x.id,
-                x.matchId,
-                x.number,
-                x.reserved,
-                x.price,
-                x.sessionId,
-                x.bought,
-                x.reservedTime
-            );
-            seat.reserved = false;
-            seat.sessionId = null;
-            UpdateSeat(seat.matchId, seat.id, seat);
-            removeData(seat.id);
-            console.log("seat released");
-        }
-    });
-}, 60000);
+//     const data = seats.docs.map((doc) => doc.data());
+//     const curentTime = new Date().getTime();
+//     console.log("update");
+//     data.forEach((x) => {
+//         if (x.reservedTime + 600000 < curentTime) {
+//             const seat = new Seat(
+//                 x.id,
+//                 x.matchId,
+//                 x.number,
+//                 x.reserved,
+//                 x.price,
+//                 x.sessionId,
+//                 x.bought,
+//                 x.reservedTime
+//             );
+//             seat.reserved = false;
+//             seat.sessionId = null;
+//             UpdateSeat(seat.matchId, seat.id, seat);
+//             removeData(seat.id);
+//             console.log("seat released");
+//         }
+//     });
+// }, 60000);
 export const reservedSeat = async (seat) => {
     try {
         const db = getFirestore(firebase);
