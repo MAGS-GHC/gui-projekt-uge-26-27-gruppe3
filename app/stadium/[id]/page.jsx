@@ -6,7 +6,15 @@ import NoClickSeat from "@/app/components/NoClickSeat";
 import VælgSæde from "@/app/components/VælgSæde";
 import Grid from "@/app/components/Grid";
 import Link from "next/link";
-import { getMatch, Match, createOrder } from "@/app/Classes";
+import {
+    getUserId,
+    getMatch,
+    Match,
+    createOrder,
+    getOrder,
+    Order,
+    deleteSeatFromOrder,
+} from "@/app/Classes";
 import SeatTable from "@/app/components/Table";
 import Section from "@/app/components/Section";
 //import { set } from "firebase/database";
@@ -30,11 +38,12 @@ export default function Home({ params }) {
     const [numSeats, setNumSeats] = useState(0);
     const [section, setSection] = useState(null);
     const [cart, setCart] = useState([]);
+    const [order, setOrder] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
             const response = await getMatch(params.id);
-
+            const orderData = await getOrder();
             const match = new Match(
                 response.id,
                 response.date,
@@ -49,6 +58,23 @@ export default function Home({ params }) {
             match.sections.forEach((x) => {
                 x.seats.sort((a, b) => a.number - b.number);
             });
+            if (orderData == undefined) {
+                let order = new Order(null, [], 0, null);
+                console.log(order);
+                setOrder(order);
+            } else {
+                let order = new Order(
+                    orderData.id,
+                    orderData.seatsId,
+                    orderData.createTime,
+                    orderData.totalPrice
+                );
+                setOrder(order);
+                console.log(order);
+            }
+            setCart(order);
+            console.log(cart);
+            // await createOrder(cart, new Date().getTime());
             setKampData(match);
             setSection(match.sections[0]);
             setLoading(false);
@@ -59,6 +85,7 @@ export default function Home({ params }) {
     async function handleSeatClick() {
         const response = await getMatch(params.id);
 
+        //const orderData = await getOrder();
         const match = new Match(
             response.id,
             response.date,
@@ -70,26 +97,34 @@ export default function Home({ params }) {
             response.openingTime,
             response.sections
         );
+        // let order = new Order(
+        //     orderData.id,
+        //     orderData.seatsId,
+        //     orderData.createTime,
+        //     orderData.totalPrice
+        // );
+        // setOrder(order);
 
         match.sections.forEach((x) => {
             x.seats.sort((a, b) => a.number - b.number);
         });
         setKampData(match);
+
         setSection(match.sections[0]);
-        console.log(kampData);
     }
 
     if (loading) {
         return <div>Loading...</div>;
     }
 
-    function handleSeatCart(seat) {
-        setCart([...cart, seat]);
-        console.log(cart);
+    async function handleSeatCart(seat) {
+        await createOrder(order, seat, new Date().getTime());
+        console.log("Seat added to database cart");
     }
 
-    function handleRemoveSeatCart(seat) {
-        setCart(cart.filter((x) => x.id !== seat.id));
+    async function handleRemoveSeatCart(seat) {
+        await deleteSeatFromOrder(order, seat, new Date().getTime());
+        console.log("Seat removed from database cart");
     }
 
     function handleSectionChange(section) {
@@ -99,29 +134,22 @@ export default function Home({ params }) {
 
     return (
         <main>
-            <div className={"container"}>
+            <div className="container">
                 <div className="container flex flex-col w-1/2 bg-grey border rounded-md p-2">
                     <h1 className="text-center">
-                        <b>Basket</b>
+                        <b>Valgte billetter</b>
                     </h1>
 
-                    <p>{checkoutId}</p>
-
-                    <h2>
+                    <h2 className="text-center">
                         {kampData.homeTeam} - {kampData.outTeam}
                     </h2>
                     <p>
                         {kampData.date} - {kampData.time}
                     </p>
-                    {cart.map((seat, index) => {
-                        return (
-                            <ul key={index}>
-                                <li>Plads: {seat.number}</li>
-                                <li>Plads ID: {seat.id}</li>
-                                <li>Pris: {seat.price}</li>
-                            </ul>
-                        );
-                    })}
+                    {order.seatsId.map((seat) => (
+                        <p key={seat}>{seat}</p>
+                    ))}
+                    <p>{order.totalPrice}</p>
                 </div>
                 <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
                     <h1 className={"h1-display text-white text-center"}>Vælg Siddepladser</h1>
