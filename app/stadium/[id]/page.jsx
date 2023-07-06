@@ -6,10 +6,16 @@ import NoClickSeat from "@/app/components/NoClickSeat";
 import VælgSæde from "@/app/components/VælgSæde";
 import Grid from "@/app/components/Grid";
 import Link from "next/link";
-import { getMatch, Match } from "@/app/Classes";
+import { getMatch, Match, createOrder } from "@/app/Classes";
 import SeatTable from "@/app/components/Table";
-import { useRef } from "react";
+import Section from "@/app/components/Section";
 //import { set } from "firebase/database";
+
+import { v4 as uuidv4 } from "uuid";
+import { set } from "firebase/database";
+
+const checkoutId = uuidv4();
+console.log("checkout ID:", checkoutId);
 
 export default function Home({ params }) {
     let seatArray = [
@@ -17,7 +23,7 @@ export default function Home({ params }) {
         26, 27, 28, 29, 30,
     ];
 
-    const [sektion, setSektion] = useState(0);
+    const [sektion, setSektion] = useState("A");
     const [kampData, setKampData] = useState({});
     const [loading, setLoading] = useState(true);
     const [numRows, setNumRows] = useState(0);
@@ -70,6 +76,7 @@ export default function Home({ params }) {
         });
         setKampData(match);
         setSection(match.sections[0]);
+        console.log(kampData);
     }
 
     if (loading) {
@@ -82,154 +89,56 @@ export default function Home({ params }) {
     }
 
     function handleRemoveSeatCart(seat) {
-        setCart([]);
+        setCart(cart.filter((x) => x.id !== seat.id));
+    }
+
+    function handleSectionChange(section) {
+        setSektion(`${section}`);
+        console.log(section);
     }
 
     return (
         <main>
             <div className={"container"}>
-                {cart.map((seat, index) => {
-                    return (
-                        <div key={index}>
-                            <p>{seat.id}</p>
-                            <p>{seat.price}</p>
-                        </div>
-                    );
-                })}
+                <div className="container flex flex-col w-1/2 bg-grey border rounded-md p-2">
+                    <h1 className="text-center">
+                        <b>Basket</b>
+                    </h1>
 
+                    <p>{checkoutId}</p>
+
+                    <h2>
+                        {kampData.homeTeam} - {kampData.outTeam}
+                    </h2>
+                    <p>
+                        {kampData.date} - {kampData.time}
+                    </p>
+                    {cart.map((seat, index) => {
+                        return (
+                            <ul key={index}>
+                                <li>Plads: {seat.number}</li>
+                                <li>Plads ID: {seat.id}</li>
+                                <li>Pris: {seat.price}</li>
+                            </ul>
+                        );
+                    })}
+                </div>
                 <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
                     <h1 className={"h1-display text-white text-center"}>Vælg Siddepladser</h1>
                 </div>
                 <div id={"MainGrid"} className={"grid grid-rows-5 mx-4 gap-2"}>
                     <div className={"grid grid-cols-5 gap-2"} id={"TopSectionRow"}>
-                        <button
-                            onClick={() => {
-                                //Scroll to section "seatSection"
-                                document && document.getElementById("seatSection").scrollIntoView();
-                                setSektion("A");
-                            }}
-                            className={
-                                " " +
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion A
-                        </button>
-                        <button
-                            onClick={() => setSektion("B")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion B
-                        </button>
-                        <button
-                            onClick={() => setSektion("C")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion C
-                        </button>
-                        <button
-                            onClick={() => setSektion("D")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion D
-                        </button>
-                        <button
-                            onClick={() => setSektion("E")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion E
-                        </button>
+                        <Section section={"A"} setSection={handleSectionChange} />
+                        <Section section={"B"} setSection={handleSectionChange} />
+                        <Section section={"C"} setSection={handleSectionChange} />
+                        <Section section={"D"} setSection={handleSectionChange} />
+                        <Section section={"E"} setSection={handleSectionChange} />
                     </div>
                     <div className={"grid grid-cols-5 row-span-3"} id={"MiddleSectionRow"}>
                         <div className={"grid-rows-3 col-start-1 inline-grid my-4 gap-2"}>
-                            <button
-                                onClick={() => setSektion("M")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-2 " +
-                                    "sm:text-sm sm:my-2 " +
-                                    "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion M
-                            </button>
-                            <button
-                                onClick={() => setSektion("MF")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-2 " +
-                                    "sm:text-sm sm:my-2 " +
-                                    "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion M Fans
-                            </button>
-                            <button
-                                onClick={() => setSektion("L")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-2 " +
-                                    "sm:text-sm sm:my-2 " +
-                                    "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion L
-                            </button>
+                            <Section section={"M"} setSection={handleSectionChange} />
+                            <Section section={"MF"} setSection={handleSectionChange} />
+                            <Section section={"L"} setSection={handleSectionChange} />
                         </div>
                         <div
                             className={"container col-start-2 col-span-3 w-1/2"}
@@ -243,145 +152,18 @@ export default function Home({ params }) {
                             />
                         </div>
                         <div className={"grid-rows-4 col-start-5 inline-grid gap-2 my-2"}>
-                            <button
-                                onClick={() => setSektion("F1")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-1 " +
-                                    "sm:text-sm sm:my-1 " +
-                                    "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion F1
-                            </button>
-                            <button
-                                onClick={() => setSektion("F2")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-1 " +
-                                    "sm:text-sm sm:my-1 " +
-                                    "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion F2
-                            </button>
-                            <button
-                                onClick={() => setSektion("U1")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-1 " +
-                                    "sm:text-sm sm:my-1 " +
-                                    "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion U1
-                            </button>
-                            <button
-                                onClick={() => setSektion("U2")}
-                                className={
-                                    "border border-green hover:bg-light-blue " +
-                                    "rounded " +
-                                    "xl:text-xl xl:my-0 " +
-                                    "lg:text-lg lg:my-1 " +
-                                    "md:text-md md:my-1 " +
-                                    "sm:text-sm sm:my-1 " +
-                                    "min-[500px]:max-sm:my-2 min-[500px]:max-sm:text-xs " +
-                                    "min-[400px]:max-[500px]:my-2 min-[400px]:max-[500px]:text-xs " +
-                                    "min-[320px]:max-[400px]:my-2 min-[320px]:max-[400px]:text-xs"
-                                }>
-                                Sektion U2
-                            </button>
+                            <Section section={"F1"} setSection={handleSectionChange} />
+                            <Section section={"F2"} setSection={handleSectionChange} />
+                            <Section section={"U1"} setSection={handleSectionChange} />
+                            <Section section={"U2"} setSection={handleSectionChange} />
                         </div>
                     </div>
                     <div className={"grid grid-cols-5 gap-2"} id={"BottomSectionRow"}>
-                        <button
-                            onClick={() => setSektion("K")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion K
-                        </button>
-                        <button
-                            onClick={() => setSektion("J")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion J
-                        </button>
-                        <button
-                            onClick={() => setSektion("I")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion I
-                        </button>
-                        <button
-                            onClick={() => setSektion("H")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion H
-                        </button>
-                        <button
-                            href={"#seatSection"}
-                            onClick={() => setSektion("G")}
-                            className={
-                                "border border-green hover:bg-light-blue " +
-                                "rounded " +
-                                "xl:text-xl xl:my-2 " +
-                                "lg:text-lg lg:my-3 " +
-                                "md:text-md md:my-3 " +
-                                "sm:text-sm sm:my-3 " +
-                                "min-[500px]:max-sm:my-4 min-[500px]:max-sm:text-xs " +
-                                "min-[400px]:max-[500px]:my-4 min-[400px]:max-[500px]:text-xs " +
-                                "min-[320px]:max-[400px]:my-4 min-[320px]:max-[400px]:text-xs"
-                            }>
-                            Sektion G
-                        </button>
+                        <Section section={"K"} setSection={handleSectionChange} />
+                        <Section section={"J"} setSection={handleSectionChange} />
+                        <Section section={"I"} setSection={handleSectionChange} />
+                        <Section section={"H"} setSection={handleSectionChange} />
+                        <Section section={"G"} setSection={handleSectionChange} />
                     </div>
                     <div className={"grid grid-cols-5"} id={"SelectionRow"}></div>
                 </div>
@@ -407,37 +189,63 @@ export default function Home({ params }) {
                     </Link>
                 </div>
             </div>
-            <section id="seatSection" className="mb-10">
+            <section id="seatSection" className="mb-20 min-w-">
                 <div className="container">
                     {sektion == "A" ? (
-                        <div>
-                            {/* Render other information */}
-
-                            <SeatTable
-                                kampid={kampData.id}
-                                seats={kampData.sections[0].seats}
-                                sæderPrRække={kampData.sections[0].seatCount}
-                                rækker={kampData.sections[0].rowsCount}
-                                seatClick={handleSeatClick}
-                                setCart={handleSeatCart}
-                                resetCart={handleRemoveSeatCart}
-                            />
-                        </div>
+                        <>
+                            <div>
+                                {/* Render other information */}
+                                <h1 className="text-center mb-5">Sektion A</h1>
+                                <SeatTable
+                                    kampid={kampData.id}
+                                    seats={kampData.sections[0].seats}
+                                    sæderPrRække={kampData.sections[0].seatCount}
+                                    rækker={kampData.sections[0].rowsCount}
+                                    seatClick={handleSeatClick}
+                                    setCart={handleSeatCart}
+                                    resetCart={handleRemoveSeatCart}
+                                />
+                            </div>
+                            <div
+                                className={"container col-start-2 col-span-3 w-1/2"}
+                                id={"ImageContainer"}>
+                                <Image
+                                    className={"rotate-90 mx-auto"}
+                                    height={320}
+                                    width={480}
+                                    src={"/stadium.jpg"}
+                                    alt={"Image of the Stadium"}
+                                />
+                            </div>
+                        </>
                     ) : null}
                     {sektion == "B" ? (
-                        <div>
-                            {/* Render other information */}
-
-                            <SeatTable
-                                kampid={kampData.id}
-                                seats={kampData.sections[1].seats}
-                                sæderPrRække={kampData.sections[1].seatCount}
-                                rækker={kampData.sections[1].rowsCount}
-                                seatClick={handleSeatClick}
-                                setCart={handleSeatCart}
-                                resetCart={handleRemoveSeatCart}
-                            />
-                        </div>
+                        <>
+                            <div>
+                                {/* Render other information */}
+                                <h1 className="text-center mb-5">Sektion B</h1>
+                                <SeatTable
+                                    kampid={kampData.id}
+                                    seats={kampData.sections[1].seats}
+                                    sæderPrRække={kampData.sections[1].seatCount}
+                                    rækker={kampData.sections[1].rowsCount}
+                                    seatClick={handleSeatClick}
+                                    setCart={handleSeatCart}
+                                    resetCart={handleRemoveSeatCart}
+                                />
+                            </div>
+                            <div
+                                className={"container col-start-2 col-span-3 w-1/2"}
+                                id={"ImageContainer"}>
+                                <Image
+                                    className={"rotate-90 mx-auto"}
+                                    height={320}
+                                    width={480}
+                                    src={"/stadium.jpg"}
+                                    alt={"Image of the Stadium"}
+                                />
+                            </div>
+                        </>
                     ) : null}
                     {sektion == "C" ? (
                         <div>
@@ -636,6 +444,7 @@ export default function Home({ params }) {
                     ) : null}
                 </div>
             </section>
+            <div id="seatsBottom"></div>
         </main>
     );
 }
