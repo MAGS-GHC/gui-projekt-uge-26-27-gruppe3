@@ -97,6 +97,11 @@ export default function Home({ params }) {
         console.log(section);
     }
 
+    function getSectionFromID(str) {
+        const separatedArray = str.split('-');
+        return separatedArray[1];
+    }
+
     return (
         <main>
             <div className={"container"}>
@@ -124,7 +129,9 @@ export default function Home({ params }) {
                     })}
                 </div>
                 <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
-                    <h1 className={"h1-display text-white text-center"}>Vælg Siddepladser</h1>
+                    <h1 className={"h1-display text-white text-center"}>
+                        Vælg Siddepladser
+                    </h1>
                 </div>
                 <div id={"MainGrid"} className={"grid grid-rows-5 mx-4 gap-2"}>
                     <div className={"grid grid-cols-5 gap-2"} id={"TopSectionRow"}>
@@ -180,7 +187,7 @@ export default function Home({ params }) {
                                 "min-[400px]:text-sm min-[400px]:py-4 min-[400px]:px-8 " +
                                 "min-[320px]:text-sm min-[320px]:py-4 min-[320px]:px-8 " +
                                 "rounded " +
-                                "bg-[#caffee] hover:bg-[#caffaa] " +
+                                "bg-[#caffee] hover:bg-green " +
                                 "border-2 border-black " +
                                 "hover:bg-light-blue"
                             }>

@@ -19,26 +19,26 @@ import "firebase/database";
 //  };*/
 
 //kim
-const firebaseConfig = {
-    apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
-    authDomain: "vffgroupe3.firebaseapp.com",
-    databaseURL: "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "vffgroupe3",
-    storageBucket: "vffgroupe3.appspot.com",
-    messagingSenderId: "1048216584094",
-    appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
-    measurementId: "G-H5ZPJP69P4",
-};
-//kim2
 // const firebaseConfig = {
-//     apiKey: "AIzaSyD6jSD7mBEha6EL9IwHdd5_J1uSeinLNOc",
-//     authDomain: "vffgroupe3-2.firebaseapp.com",
-//     projectId: "vffgroupe3-2",
-//     storageBucket: "vffgroupe3-2.appspot.com",
-//     messagingSenderId: "222426674967",
-//     appId: "1:222426674967:web:16522a989c9da9bebda952",
-//     measurementId: "G-8452W0QL6X",
+//     apiKey: "AIzaSyC2ADYjDhefeXbHm38nNnzbR6YSH2SRfgo",
+//     authDomain: "vffgroupe3.firebaseapp.com",
+//     databaseURL: "https://vffgroupe3-default-rtdb.europe-west1.firebasedatabase.app",
+//     projectId: "vffgroupe3",
+//     storageBucket: "vffgroupe3.appspot.com",
+//     messagingSenderId: "1048216584094",
+//     appId: "1:1048216584094:web:e26829b7f734de9b80a08f",
+//     measurementId: "G-H5ZPJP69P4"
 // };
+//kim2
+const firebaseConfig = {
+    apiKey: "AIzaSyD6jSD7mBEha6EL9IwHdd5_J1uSeinLNOc",
+    authDomain: "vffgroupe3-2.firebaseapp.com",
+    projectId: "vffgroupe3-2",
+    storageBucket: "vffgroupe3-2.appspot.com",
+    messagingSenderId: "222426674967",
+    appId: "1:222426674967:web:16522a989c9da9bebda952",
+    measurementId: "G-8452W0QL6X",
+};
 //kim3
 // const firebaseConfig = {
 //     apiKey: "AIzaSyAbWkCprj3NPAtJJpv-la609MpVu2g-nuE",
