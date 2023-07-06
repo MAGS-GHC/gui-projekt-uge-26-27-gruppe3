@@ -13,6 +13,7 @@ import Section from "@/app/components/Section";
 
 import { v4 as uuidv4 } from "uuid";
 import { set } from "firebase/database";
+import {list} from "postcss";
 
 const checkoutId = uuidv4();
 console.log("checkout ID:", checkoutId);
@@ -105,28 +106,48 @@ export default function Home({ params }) {
     return (
         <main>
             <div className={"container"}>
-                <div className="container flex flex-col w-1/2 bg-grey border rounded-md p-2">
-                    <h1 className="text-center">
-                        <b>Basket</b>
+                <div className="flex fixed right-5 flex-col w-1/6 bg-blue text-white border-2 border-black rounded-md gap-3 p-2">
+                    <div className={"flex-row gap-2"}>
+                        <h2 className="text-center h5-display">
+                            {kampData.homeTeam} - {kampData.outTeam}
+                        </h2>
+                        <p className="text-center uppercase font-bold">
+                            {kampData.date} - {kampData.time}
+                        </p>
+                    </div>
+                    <h1 className="text-center h4-display uppercase">
+                        Valgte Sæder:
                     </h1>
-
-                    <p>{checkoutId}</p>
-
-                    <h2>
-                        {kampData.homeTeam} - {kampData.outTeam}
-                    </h2>
-                    <p>
-                        {kampData.date} - {kampData.time}
-                    </p>
+                    <hr/>
                     {cart.map((seat, index) => {
                         return (
-                            <ul key={index}>
-                                <li>Plads: {seat.number}</li>
-                                <li>Plads ID: {seat.id}</li>
-                                <li>Pris: {seat.price}</li>
+                            <ul className="list-inside" key={index}>
+                                <li>
+                                    <p>
+                                        <b>Sektion: </b>
+                                        {getSectionFromID(seat.id)}
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <b>Sæde: </b>
+                                        {seat.number}
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        <b>Pris: </b>
+                                        {seat.price} kr.
+                                    </p>
+                                </li>
                             </ul>
                         );
                     })}
+                    <hr/>
+                    <p>
+                        <b> Total: </b>
+
+                    </p>
                 </div>
                 <div className={"bg-dark-green w-100 border border-white m-2 p-4 rounded-lg"}>
                     <h1 className={"h1-display text-white text-center"}>
