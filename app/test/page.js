@@ -1,6 +1,7 @@
 // 'use server';
-import { currentUser } from "@clerk/nextjs";
 import { sendEmail } from "../emailConfirmation.js";
+import { currentUser } from "@clerk/nextjs";
+
 
 export default async function AddHobby() {
 async function getUserInfo() {
