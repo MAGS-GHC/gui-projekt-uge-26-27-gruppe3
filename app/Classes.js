@@ -14,6 +14,20 @@ import {
 } from "firebase/firestore";
 import { get } from "firebase/database";
 
+export class Order {
+    constructor(id, seatsId, createTime) {
+        (this.id = id), (this.seatsId = seatsId);
+        this.createTime = createTime;
+    }
+    toObject() {
+        return {
+            id: this.id,
+            seatsId: this.seatsId,
+            createTime: this.createTime,
+        };
+    }
+}
+
 export class Match {
     constructor(
         id,
@@ -409,7 +423,7 @@ export const CreateMatch = async (
     openingTime
 ) => {
     const sections = [
-        new Section(id + "-A", "A", 2, 5, false, "Large"),
+        new Section(id + "-A", "A", 10, 25, false, "Large"),
         new Section(id + "-B", "B", 2, 5, true, "Large"),
         // new Section(id + "-C", "C", 5, 10, false, "Large"),
         // new Section(id + "-D", "D", 5, 10, false, "Small"),
@@ -507,4 +521,11 @@ export const removeData = async (seatId) => {
     const doco = doc(db, "seat-reserved", seatId);
     await deleteDoc(doco);
     console.log("seatRemoved");
+};
+
+export const createOrder = async (orderId, seatId, time) => {
+    const order = new Order(orderId, seatId, time);
+    const db = getFirestore(firebase);
+    const doco = doc(db, "orders", order.toObject());
+    const saveDoc = await setDoc(doco);
 };
