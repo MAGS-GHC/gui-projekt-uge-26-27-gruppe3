@@ -17,10 +17,12 @@ export default function Sæde(props) {
             props.seatdata.reserved = true;
             props.seatdata.sessionId = sessionId;
             props.seatdata.reservedTime = new Date().getTime();
+            props.setCart(props.seatdata);
             await UpdateSeat(props.kampid, props.id, props.seatdata);
             await reservedSeat(props.seatdata);
         } else if (currentSessionId == sessionId) {
             props.seatdata.reserved = false;
+            props.resetCart();
             props.seatdata.sessionId = null;
             await UpdateSeat(props.kampid, props.id, props.seatdata);
             await removeData(props.seatdata.id);
@@ -31,7 +33,7 @@ export default function Sæde(props) {
     return (
         <p
             onClick={handleSeatClick}
-            className={`Sæde border rounded-full gap-5 border-1 p-5 h-4 w-4 ${
+            className={`Sæde border rounded-full gap-5 border-1 p-20 h-4 w-4 ${
                 props.optaget ? "bg-red" : "bg-green"
             }`}></p>
     );

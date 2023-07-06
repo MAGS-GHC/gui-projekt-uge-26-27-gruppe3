@@ -21,6 +21,8 @@ const SeatTable = (props) => {
                         kampid={props.kampid}
                         seatClick={props.seatClick}
                         sessionid={seat.sessionId}
+                        setCart={props.setCart}
+                        resetCart={props.resetCart}
                     />
                 </td>
             ));
@@ -32,7 +34,7 @@ const SeatTable = (props) => {
     };
 
     return (
-        <table>
+        <table className="mx-auto">
             <tbody>{generateSeats()}</tbody>
         </table>
     );
