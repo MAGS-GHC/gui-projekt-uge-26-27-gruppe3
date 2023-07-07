@@ -14,7 +14,7 @@ export default async function Home() {
                         src="https://www.vff.dk/images/Logo/VFF_primaerlogo_cmyk_compr_med.png"
                         alt="logo"
                     />
-                    <div className="text-center py-20 lg:py-52">
+                    <div className="text-center py-20 lg:py-22">
                         <h1 className="font-semibold text-8xl text-white">Billet Booking</h1>
                         <p className="mt-5 font-medium text-xl text-white">
                             Her finder du billetter til alle kampe på Viborg stadion
@@ -22,7 +22,7 @@ export default async function Home() {
                     </div>
                 </div>
             </section>
-            <section>
+            <section className="mb-20">
                 <div className="container">
                     <div className="grid grid-cols-1 gap-14">
                         {allGameData.map((item, index) => {
