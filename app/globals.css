@@ -62,10 +62,11 @@ section {
 }
 
 .titleSection {
-    margin-top: 0 !important;
-    height: 700px !important;
     background-size: cover !important;
-    background-image: url('https://www.vff.dk/images/2022-2023/Hjemmebane/RFC0503/_DS92944-2.jpg');
+    margin-top: 0 !important;
+    height: 500px !important;
+    width: auto !important;
+    background: url('https://www.vff.dk/images/2022-2023/Hjemmebane/RFC0503/_DS92944-2.jpg');
 }
 
 .headerlogo {
