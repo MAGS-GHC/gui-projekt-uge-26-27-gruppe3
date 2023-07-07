@@ -1,28 +1,27 @@
 import { UpdateSeat, getSessionData, reservedSeat, removeData } from "../Classes";
 import { v4 as uuidv4 } from "uuid";
-
-const sessionId = uuidv4();
-console.log("Session ID:", sessionId);
+import { useAuth } from "@clerk/clerk-react";
 
 //Current time in millisecond
 
 export default function Sæde(props) {
-    const handleSeatClick = async () => {
-        console.log("Session ID:", sessionId);
+    const { userId, sessionId, getToken, isLoaded, isSignedIn, signOut, orgId, orgRole, orgSlug } =
+        useAuth();
 
+    const handleSeatClick = async () => {
         // Fetch the latest session ID from props
         const currentSessionId = await getSessionData(props.kampid, props.seatdata);
 
         if (currentSessionId == null) {
-            props.seatdata.reserved = true;
-            props.seatdata.sessionId = sessionId;
-            props.seatdata.reservedTime = new Date().getTime();
             props.setCart(props.seatdata);
+            props.seatdata.reserved = true;
+            props.seatdata.sessionId = userId;
+            props.seatdata.reservedTime = new Date().getTime();
             await UpdateSeat(props.kampid, props.id, props.seatdata);
             await reservedSeat(props.seatdata);
-        } else if (currentSessionId == sessionId) {
-            props.seatdata.reserved = false;
+        } else if (currentSessionId == userId) {
             props.resetCart(props.seatdata);
+            props.seatdata.reserved = false;
             props.seatdata.sessionId = null;
             await UpdateSeat(props.kampid, props.id, props.seatdata);
             await removeData(props.seatdata.id);

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+"use client";
+
+import React, { useState } from "react";
 
 const Message = ({ isOpen, message, onAccept }) => {
     if (!isOpen) {
@@ -12,15 +14,13 @@ const Message = ({ isOpen, message, onAccept }) => {
                 <div className="flex justify-center mt-4">
                     <button
                         className="bg-green-500 text-white px-4 py-2 rounded"
-                        onClick={onAccept}
-                    >
+                        onClick={onAccept}>
                         OK
                     </button>
                 </div>
             </div>
         </div>
     );
-
 };
 
 export default Message;
